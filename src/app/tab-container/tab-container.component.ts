@@ -22,7 +22,8 @@ export class TabContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    const params: URLSearchParams = (new URL(document.location.toString())).searchParams;
+    const url: URL = new URL(document.location.toString());
+    const params: URLSearchParams = url.searchParams;
     // push the new education Id to the service and update the data
     this.electiveDataService.educationId.next(params.get('eid'));
 

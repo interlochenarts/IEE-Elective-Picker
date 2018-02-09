@@ -81,7 +81,8 @@ export class ReviewContainerComponent implements OnInit {
       (saved: boolean) => {
         // redirect on true
         window.location.href = 'IEE_ElectivesChosen?eid=' + this.education.educationId;
-      }
+      },
+      {buffer: false, escape: false}
     );
   }
 
