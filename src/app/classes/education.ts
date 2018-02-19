@@ -10,6 +10,7 @@ export class Education {
   division: string;
   totalWeeksAttending: number;
   privateLessonFormActive: boolean;
+  privateLessonFormSubmitted: boolean;
 
   studentFirstName: string;
   studentLastName: string;

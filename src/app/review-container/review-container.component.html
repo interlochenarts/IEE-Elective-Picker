@@ -15,7 +15,8 @@
                     && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
                     && primaryElectivesByProgramMajorIds.get(pmId).length === 0
                      && hasAlternatesButNoPrimariesForProgram(pmId) === false">
-          <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select an optional elective to enhance your
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select an optional elective to enhance
+          your
           daily schedule.
         </div>
         <div class="alert alert-danger"
@@ -27,7 +28,8 @@
              *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) === 0
                      && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
                      && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
-          <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select an optional elective to enhance your
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select an optional elective to enhance
+          your
           daily schedule.
         </div>
         <div class="alert alert-danger"
@@ -80,6 +82,13 @@
         class="alert alert-info">
         <i class="fa fa-info-circle"></i> There are no electives available for this session.
       </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="education.privateLessonFormSubmitted === true">
+  <div class="col-xs-12">
+    <div class="session">
+      You have submitted a private lesson elective form for this summer.
     </div>
   </div>
 </div>

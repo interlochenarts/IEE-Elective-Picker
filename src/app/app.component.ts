@@ -112,20 +112,29 @@ export class AppComponent implements OnInit {
     queryString += '&emailAddress=' + encodeURI(this.education.currentUserEmail).replace(/\+/g, '{plusSign}');
     queryString += '&division=' + encodeURI(this.education.division);
     queryString += '&session=' + encodeURI(this.education.sessionsByProgramMajorIds[this.activeProgramMajorId]);
+    queryString += '&educationId=' + encodeURI(this.education.educationId);
 
-    const url = 'https://jotform.com/73405988648170';
+    // production link
+    // const url = 'https://jotform.com/73405988648170';
+
+    // development link
+    const url = 'https://jotform.com/80465546948167';
 
     return url + queryString;
   }
 
   get privateLessonInstructions(): string {
-    return '<p>A Private Lesson elective may be requested in the place of one of the elective selections made on this page.</p>' +
-      '<p>To be eligible, the student must have at least three years of experience on the instrument, and ' +
-      'there is an additional fee of $115 per week.</p>' +
-      '<p>If you are interested in requesting a Private Lesson elective, ' +
-      '<a class="privateLessonLink" href="' + this.privateLessonFormLink + '" target="_blank">please complete this form.</a></p>' +
-      '<p>Please submit elective requests in addition to completing this form. We are not able guarantee placement in private ' +
-      'lesson electives.</p>';
+    if (this.education.privateLessonFormSubmitted === false) {
+      return '<p>A Private Lesson elective may be requested in the place of one of the elective selections made on this page.</p>' +
+        '<p>To be eligible, the student must have at least three years of experience on the instrument, and ' +
+        'there is an additional fee of $115 per week.</p>' +
+        '<p>If you are interested in requesting a Private Lesson elective, ' +
+        '<a class="privateLessonLink" href="' + this.privateLessonFormLink + '" target="_blank">please complete this form.</a></p>' +
+        '<p>Please submit elective requests in addition to completing this form. We are not able guarantee placement in private ' +
+        'lesson electives.</p>';
+    } else {
+      return '<p>Thank you for submitting your private lesson elective form.</p>';
+    }
   }
 
   toTop(): void {
