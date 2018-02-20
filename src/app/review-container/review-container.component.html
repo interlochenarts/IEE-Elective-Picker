@@ -57,7 +57,7 @@
         </div>
 
         <h4 class="text-center alt-header">Alternate Selections</h4>
-        <div class="alert alert-danger" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
+        <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i> While an alternate choice is not
           required, you are encouraged to choose one or more.
         </div>
@@ -82,13 +82,6 @@
         class="alert alert-info">
         <i class="fa fa-info-circle"></i> There are no electives available for this session.
       </div>
-    </div>
-  </div>
-</div>
-<div class="row" *ngIf="education.privateLessonFormSubmitted === true">
-  <div class="col-xs-12">
-    <div class="session">
-      You have submitted a private lesson elective form for this summer.
     </div>
   </div>
 </div>

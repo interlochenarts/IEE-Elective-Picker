@@ -101,8 +101,9 @@ export class AppComponent implements OnInit {
 
   get showPrivateLessonInstructions(): boolean {
     // The !! is to force returning a boolean. Should never return the totalWeeks, which is a number type.
-    return !!(this.education && this.education.privateLessonFormActive && this.education.totalWeeksAttending
-      && this.education.totalWeeksAttending >= 3 && this.activeProgramMajorId !== null);
+    return !!(this.education && this.education.privateLessonFormActive
+      && this.education.totalWeeksAttending && this.education.totalWeeksAttending >= 3
+      && (this.activeProgramMajorId !== null || this.education.privateLessonFormSubmitted === true));
   }
 
   get privateLessonFormLink(): string {
@@ -133,7 +134,7 @@ export class AppComponent implements OnInit {
         '<p>Please submit elective requests in addition to completing this form. We are not able guarantee placement in private ' +
         'lesson electives.</p>';
     } else {
-      return '<p>Thank you for submitting your private lesson elective form.</p>';
+      return 'You have submitted a private lesson request form for this summer. ';
     }
   }
 
@@ -142,3 +143,4 @@ export class AppComponent implements OnInit {
     document.documentElement.scrollTop = 0;
   }
 }
+2
