@@ -60,7 +60,7 @@ export class ElectiveDataService {
               }
             });
           } else {
-            console.log('Could not subscribe to ' + ev);
+            console.log('ERROR: Could not subscribe to ' + ev);
           }
         });
       },
