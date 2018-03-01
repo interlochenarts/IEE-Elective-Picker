@@ -5,6 +5,7 @@ import 'rxjs/add/operator/catch';
 import {Education} from '../classes/education';
 import {ElectiveCriterion} from '../classes/elective-criterion';
 import * as cometd from 'cometd/cometd';
+import {FilterListItem} from "../classes/filter-list-item";
 
 declare const Visualforce: any;
 
@@ -18,6 +19,7 @@ export class ElectiveDataService {
   public availableCriteriaBySession = new BehaviorSubject<Map<string, number>>(null);
   public closedPeriods = new BehaviorSubject<number[]>([]);
   public activeProgramMajorId = new BehaviorSubject<string>(null);
+  public typeFilterList = new BehaviorSubject<FilterListItem[]>([]);
 
   constructor() {
     this.educationId.asObservable().subscribe({

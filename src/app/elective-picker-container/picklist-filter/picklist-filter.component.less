@@ -1,0 +1,67 @@
+#dropdown-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 1000;
+}
+
+.selectedFilterList {
+  margin: 10px 0;
+  padding: 0;
+  user-select: none;
+
+  li {
+    user-select: none;
+    display: inline-block;
+    margin: 5px 10px;
+    //border-radius: 1em;
+    //padding: .5em 1em;
+    //margin: 5px;
+    //border: 2px solid darkgray;
+
+    cursor: pointer;
+
+    i {
+      color: darkgray;
+    }
+  }
+}
+
+.dropdown-main {
+  border: 1px solid #cccccc;
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.dropdown-list {
+  cursor: pointer;
+  margin-left: 9px;
+  position: relative;
+
+  ul {
+    user-select: none;
+    padding: 5px 10px;
+    list-style: none;
+    border: 1px solid #cccccc;
+
+    top: -6px;
+
+    /* makes the thing kind of work like a dropdown list */
+    position: absolute;
+    background: white;
+    z-index: 2500;
+
+    li {
+      display: inline-block;
+      user-select: none;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

@@ -84,7 +84,7 @@ export class TabContainerComponent implements OnInit {
     if (this.tabIndex === (this.programMajorIds.length - 1)) {
       return 'Review & Submit';
     } else {
-      const pmId = this.programMajorIds[this.tabIndex];
+      const pmId = this.programMajorIds[this.tabIndex + 1];
       return this.education.programNamesByProgramMajorIds[pmId] + ' - ' + this.education.sessionsByProgramMajorIds[pmId];
     }
   }

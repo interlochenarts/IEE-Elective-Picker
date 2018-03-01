@@ -1,0 +1,16 @@
+<div id="dropdown-modal" (click)="onCloseDropdown()" #dropdownModal></div>
+<div (click)="onClickDropDown()" class="dropdown-main">
+  Filter by Elective Type <i class="fa fa-caret-down" aria-hidden="true"></i>
+</div>
+<div *ngIf="dropDownIsVisible" class="dropdown-list">
+  <ul>
+    <iee-list-item *ngFor="let item of filterList" [listItem]="item"></iee-list-item>
+  </ul>
+</div>
+<div>
+  <ul class="selectedFilterList">
+    <li *ngFor="let item of selectedListItems"
+      (click)="onRemoveSelectedItem(item)"><i class="fa fa-times"></i> {{item.description}}</li>
+    <li *ngIf="selectedListItems.length > 1" (click)="onRemoveAllItems()"><i class="fa fa-times"></i> Remove All</li>
+  </ul>
+</div>

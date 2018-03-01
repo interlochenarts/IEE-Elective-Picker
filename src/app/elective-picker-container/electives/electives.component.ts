@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, DoCheck, Input, OnInit} from '@angular/core';
 import {Elective} from '../../classes/elective';
 import {ElectiveDataService} from '../../services/elective-data-service';
 import {animateChild, query, transition, trigger} from '@angular/animations';
+import {FilterListItem} from "../../classes/filter-list-item";
 
 @Component({
   selector: 'iee-electives',
@@ -15,22 +16,27 @@ import {animateChild, query, transition, trigger} from '@angular/animations';
     ]),
   ]
 })
-export class ElectivesComponent implements OnInit {
+export class ElectivesComponent implements OnInit, DoCheck {
   @Input() electivesType: string;
   @Input() electives: Elective[];
   closedTypes: string[] = [];
   closedPeriods: number[] = [];
   private availableCriteriaCount: number;
   availableCriteriaBySession: Map<string, number>;
+  private typeFilters: FilterListItem[] = [];
+  private filteredTypes: string[] = [];
+  private _selectedTypeCount = 0;
 
   get displayedElectives(): Elective[] {
     if (this.electives) {
       return this.electives.filter((elective: Elective) => {
         if (this.isPrimary) {
-          return !elective.isAlternate && elective.availableSlots > 0;
+          return !elective.isAlternate && elective.availableSlots > 0
+            && (this.filteredTypes.length === 0 || this.filteredTypes.indexOf(elective.electiveType) >= 0);
         }
         if (this.isAlternate) {
-          return !elective.isPrimary;
+          return !elective.isPrimary
+            && (this.filteredTypes.length === 0 || this.filteredTypes.indexOf(elective.electiveType) >= 0);
         }
         return true;
       });
@@ -73,7 +79,27 @@ export class ElectivesComponent implements OnInit {
   constructor(private electiveDataService: ElectiveDataService) {
   }
 
+  ngDoCheck() {
+    const selectedTypeCount: number = this.typeFilters.reduce((count, item) => {
+      return count + (item.isSelected ? 1 : 0);
+    }, 0);
+    if (selectedTypeCount !== this._selectedTypeCount) {
+      this.filteredTypes = [];
+      this.typeFilters.forEach(f => {
+        if (f.isSelected) {
+          this.filteredTypes.push(f.description);
+        }
+      });
+      this._selectedTypeCount = selectedTypeCount;
+    }
+  }
+
   ngOnInit() {
+    this.electiveDataService.typeFilterList.asObservable().subscribe({
+      next: filters => {
+        this.typeFilters = filters;
+      }
+    });
     this.electiveDataService.closedTypes.asObservable().subscribe({
       next: closed => {
         this.closedTypes = closed;

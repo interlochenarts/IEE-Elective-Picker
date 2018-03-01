@@ -14,6 +14,8 @@ import {CriteriaCheckService} from './services/criteria-check.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ModalContainerComponent } from './modal-container/modal-container.component';
 import {ModalService} from "./services/modal.service";
+import { PicklistFilterComponent } from './elective-picker-container/picklist-filter/picklist-filter.component';
+import { ListItemComponent } from './elective-picker-container/picklist-filter/list-item/list-item.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import {ModalService} from "./services/modal.service";
     ReviewContainerComponent,
     TabContainerComponent,
     ElectiveCriteriaContainerComponent,
-    ModalContainerComponent
+    ModalContainerComponent,
+    PicklistFilterComponent,
+    ListItemComponent
   ],
   imports: [
     BrowserModule,

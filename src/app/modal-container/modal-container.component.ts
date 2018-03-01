@@ -19,8 +19,8 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
     const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
     const viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth);
 
-    this.modalBackdrop.nativeElement.style.height = viewHeight;
-    this.modalBackdrop.nativeElement.style.width = viewWidth;
+    this.modalBackdrop.nativeElement.style.height = viewHeight + 'px';
+    this.modalBackdrop.nativeElement.style.width = viewWidth + 'px';
 
     this.modalBox.nativeElement.style.top = viewHeight / 2;
 
