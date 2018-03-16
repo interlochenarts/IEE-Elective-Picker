@@ -134,7 +134,7 @@ export class AppComponent implements OnInit {
         '<p>Please submit elective requests in addition to completing this form. We are not able guarantee placement in private ' +
         'lesson electives.</p>';
     } else {
-      return 'You have submitted a private lesson request form for this summer. ';
+      return 'You have submitted a private lesson elective request form for this summer. ';
     }
   }
 
@@ -143,4 +143,4 @@ export class AppComponent implements OnInit {
     document.documentElement.scrollTop = 0;
   }
 }
-2
+
