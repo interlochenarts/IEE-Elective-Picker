@@ -116,10 +116,10 @@ export class AppComponent implements OnInit {
     queryString += '&educationId=' + encodeURI(this.education.educationId);
 
     // production link
-    // const url = 'https://jotform.com/73405988648170';
+    const url = 'https://jotform.com/73405988648170';
 
     // development link
-    const url = 'https://jotform.com/80465546948167';
+    // const url = 'https://jotform.com/80465546948167';
 
     return url + queryString;
   }
@@ -143,4 +143,3 @@ export class AppComponent implements OnInit {
     document.documentElement.scrollTop = 0;
   }
 }
-2
