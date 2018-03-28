@@ -115,7 +115,7 @@ export class Elective {
         this.session,
         (savedId: string) => {
           this.courseRequestId = savedId;
-          console.log(this.courseDescription + ' should have a courseRequestId of ' + savedId);
+          // console.log(this.courseDescription + ' should have a courseRequestId of ' + savedId);
           resolve(savedId);
         },
         {buffer: false, escape: false}

@@ -15,7 +15,8 @@
                     && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
                     && primaryElectivesByProgramMajorIds.get(pmId).length === 0
                      && hasAlternatesButNoPrimariesForProgram(pmId) === false">
-          <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select an optional elective to enhance your
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select an optional elective to enhance
+          your
           daily schedule.
         </div>
         <div class="alert alert-danger"
@@ -27,7 +28,8 @@
              *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) === 0
                      && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
                      && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
-          <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select an optional elective to enhance your
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select an optional elective to enhance
+          your
           daily schedule.
         </div>
         <div class="alert alert-danger"
@@ -55,7 +57,7 @@
         </div>
 
         <h4 class="text-center alt-header">Alternate Selections</h4>
-        <div class="alert alert-danger" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
+        <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i> While an alternate choice is not
           required, you are encouraged to choose one or more.
         </div>

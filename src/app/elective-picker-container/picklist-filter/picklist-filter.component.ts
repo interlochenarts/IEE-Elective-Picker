@@ -29,7 +29,7 @@ export class PicklistFilterComponent implements OnInit {
     Visualforce.remoting.Manager.invokeAction(
       'IEE_ElectivePicker_Controller.getElectiveTypesForFilter',
       json => {
-        console.log(json);
+        // console.log(json);
         const filterTypes: string[] = JSON.parse(json);
         this.filterList = filterTypes.filter(t => {
           return this.availableTypes.indexOf(t) >= 0;
