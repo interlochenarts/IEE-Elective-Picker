@@ -35,7 +35,7 @@ export class ElectivesComponent implements OnInit, DoCheck {
             && (this.filteredTypes.length === 0 || this.filteredTypes.indexOf(elective.electiveType) >= 0);
         }
         if (this.isAlternate) {
-          return !elective.isPrimary
+          return !elective.isPrimary && elective.availableSlots > 0
             && (this.filteredTypes.length === 0 || this.filteredTypes.indexOf(elective.electiveType) >= 0);
         }
         return true;
