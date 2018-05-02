@@ -1,7 +1,7 @@
 #!/bin/bash
 
 FILE='IEE_ElectivePickerAngular'
-EXT='zip'
+EXT='resource'
 
 # remove old zip file if it exists
 if [ -f $FILE.$EXT ]; then
@@ -15,6 +15,6 @@ cd dist
 
 # compress new version
 echo -e "Compressing files to $FILE.$EXT"
-zip -r "../$FILE" *
+zip -r "../Salesforce/src/$FILE.$EXT" *
 
 echo -e "\nFinished creating $FILE.$EXT\n"
