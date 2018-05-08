@@ -15,6 +15,6 @@ cd dist
 
 # compress new version
 echo -e "Compressing files to $FILE.$EXT"
-zip -r "../Salesforce/src/$FILE.$EXT" *
+zip -r "../Salesforce/src/staticresources/$FILE.$EXT" *
 
 echo -e "\nFinished creating $FILE.$EXT\n"
