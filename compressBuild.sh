@@ -4,8 +4,8 @@ FILE='IEE_ElectivePickerAngular'
 EXT='resource'
 
 # remove old zip file if it exists
-if [ -f $FILE.$EXT ]; then
-   rm $FILE.$EXT;
+if [ -f Salesforce/src/staticresources/$FILE.$EXT ]; then
+   rm Salesforce/src/staticresources/$FILE.$EXT;
    echo -e "removed old version of $FILE.$EXT\n"
 else
    echo -e "$FILE.$EXT does not exist\n"
