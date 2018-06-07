@@ -78,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="availableElectivesByProgramMajorIds.get(pmId).length === 0">
+      <div *ngIf="availableElectivesByProgramMajorIds.get(pmId).length === 0" class="alert alert-warning">
         <i class="fa fa-info-circle"></i> There are no electives available for this session or all electives are
         full.
       </div>
