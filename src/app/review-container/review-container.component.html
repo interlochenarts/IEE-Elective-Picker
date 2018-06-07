@@ -27,10 +27,17 @@
         <div class="alert alert-warning"
              *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) === 0
                      && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
+                     && availableElectivesByProgramMajorIds.get(pmId).length > 0
                      && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select an optional elective to enhance
-          your
-          daily schedule.
+          your daily schedule.
+        </div>
+        <div class="alert alert-warning"
+             *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) === 0
+                     && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
+                     && availableElectivesByProgramMajorIds.get(pmId).length === 0
+                     && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
+          <i class="fa fa-info-circle"></i> There are no electives available for this session or all electives are full.
         </div>
         <div class="alert alert-danger"
              *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) === 0

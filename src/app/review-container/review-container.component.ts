@@ -19,6 +19,7 @@ export class ReviewContainerComponent implements OnInit {
   readyToSubmit = false;
   primaryElectivesByProgramMajorIds: Map<string, Elective[]> = new Map<string, Elective[]>();
   alternateElectivesByProgramMajorIds: Map<string, Elective[]> = new Map<string, Elective[]>();
+  availableElectivesByProgramMajorIds: Map<string, Elective[]> = new Map<string, Elective[]>();
   availableRequiredCriteriaByProgramMajorIds: Map<string, number> = new Map<string, number>();
   availableOptionalCriteriaByProgramMajorIds: Map<string, number> = new Map<string, number>();
   electiveCriteria: Map<string, ElectiveCriterion[]> = new Map<string, ElectiveCriterion[]>();
@@ -41,6 +42,9 @@ export class ReviewContainerComponent implements OnInit {
           }));
           this.alternateElectivesByProgramMajorIds.set(pmId, this.education.electivesByProgramMajorIds[pmId].filter(e => {
             return e.isAlternate;
+          }));
+          this.availableElectivesByProgramMajorIds.set(pmId, this.education.electivesByProgramMajorIds[pmId].filter(e => {
+            return e.isPrimary || e.isAlternate || e.availableSlots > 0;
           }));
         } else {
           this.primaryElectivesByProgramMajorIds.set(pmId, []);
