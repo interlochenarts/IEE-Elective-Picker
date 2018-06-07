@@ -26,12 +26,6 @@
             <i class="fa fa-exclamation-triangle" style="color:red"></i>
             You have not chosen all of your electives for this session. Please complete your selections.
           </div>
-          <div class="alert alert-warning"
-               *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) === 0
-                    && availableOptionalCriteriaByProgramMajorIds.get(pmId) === 0">
-            <i class="fa fa-info-circle"></i> There are no electives available for this session or all electives are
-            full.
-          </div>
           <div class="alert alert-danger"
                *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) === 0
                     && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
@@ -79,8 +73,7 @@
         </div>
       </div>
       <div *ngIf="availableElectivesByProgramMajorIds.get(pmId).length === 0" class="alert alert-warning">
-        <i class="fa fa-info-circle"></i> There are no electives available for this session or all electives are
-        full.
+        <i class="fa fa-info-circle"></i> There are no electives available for this session or all electives are full.
       </div>
       <div
         *ngIf="!education.electivesByProgramMajorIds[pmId] || education.electivesByProgramMajorIds[pmId].length === 0"
