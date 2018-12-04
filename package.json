@@ -38,7 +38,6 @@
     "@angular/compiler-cli": "^5.2.5",
     "@types/jasmine": "^2.8.6",
     "@types/node": "^9.4.6",
-    "bootstrap": "3.3.7",
     "codelyzer": "^4.1.0",
     "font-awesome": "^4.7.0",
     "jasmine-core": "^2.99.1",
