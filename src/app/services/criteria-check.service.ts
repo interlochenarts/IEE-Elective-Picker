@@ -57,26 +57,33 @@ export class CriteriaCheckService {
     return periodCriteria;
   }
 
-  public checkCriteriaCheckMarks(typeCriteria: ElectiveCriterion[],
+  public checkCriteriaCheckMarks(typeCriteria: Map<string, Map<string, ElectiveCriterion[]>>,
                                  primaryElectives: Elective[], criteriaMap: Map<string, number>) {
-    // unset all check marks
-    for (let i = 0; i < typeCriteria.length; i++) {
-      typeCriteria[i].isSatisfied = false;
-    }
+    // unset all check marks and build list
+    const typeList: ElectiveCriterion[] = [];
+    typeCriteria.forEach((orMap: Map<string, ElectiveCriterion[]>, orGroupName: string) => {
+      orMap.forEach((andList: ElectiveCriterion[], andGroupName: string) => {
+        andList.forEach(criteria => {
+          criteria.isSatisfied = false;
+          typeList.push(criteria);
+        });
+      });
+    });
 
+    // TODO: this probably fails with the new changes
     const electives = primaryElectives.slice(0);
     electives.sort((a, b) => {
       return criteriaMap.get(a.electiveType) - criteriaMap.get(b.electiveType);
     });
 
     electives.forEach(elective => {
-      for (let i = 0; i < typeCriteria.length; i++) {
-        if (typeCriteria[i].isSatisfied) {
+      for (let i = 0; i < typeList.length; i++) {
+        if (typeList[i].isSatisfied) {
           continue;
         }
 
-        if (CriteriaCheckService.criterionIsMet(typeCriteria[i], elective)) {
-          typeCriteria[i].isSatisfied = true;
+        if (CriteriaCheckService.criterionIsMet(typeList[i], elective)) {
+          typeList[i].isSatisfied = true;
           break;
         }
       }
