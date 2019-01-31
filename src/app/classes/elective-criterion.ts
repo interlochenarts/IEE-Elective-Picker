@@ -12,6 +12,8 @@ export class ElectiveCriterion {
   pg1Satisfied: boolean;
   pg2Satisfied: boolean;
   typeList: string[];
+  orGroup: string;
+  andGroup: string;
 
   // TODO: should be global somehow
   private timePeriodMap = {
