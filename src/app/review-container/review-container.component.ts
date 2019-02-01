@@ -58,20 +58,19 @@ export class ReviewContainerComponent implements OnInit {
 
           const primaryElectives = this.primaryElectivesByProgramMajorIds.get(pmId);
 
-          const criteriaMap = this.criteriaCheckService.buildTypeCriteriaMap(typeCriteria, this.education.sessionsByProgramMajorIds[pmId]);
-          this.criteriaCheckService.checkCriteriaCheckMarks(typeCriteria, primaryElectives, criteriaMap);
+          const typeCriteriaMap = this.buildCriteriaMap(typeCriteria);
+          const criteriaMap = this.criteriaCheckService.buildTypeCriteriaMap(typeCriteriaMap,
+            this.education.sessionsByProgramMajorIds[pmId]);
+          this.criteriaCheckService.checkCriteriaCheckMarks(typeCriteriaMap, primaryElectives, criteriaMap);
 
+          const reqCriteriaMap = this.buildCriteriaMap(typeCriteria.filter(criteria => criteria.isRequired));
           this.availableRequiredCriteriaByProgramMajorIds.set(pmId,
-            this.criteriaCheckService.countAvailableCriteria(typeCriteria.filter(criteria => {
-              return criteria.isRequired;
-            }), false)
+            this.criteriaCheckService.countAvailableCriteria(reqCriteriaMap, false)
           );
 
+          const optCriteriaMap = this.buildCriteriaMap(typeCriteria.filter(criteria => criteria.isRequired));
           this.availableOptionalCriteriaByProgramMajorIds.set(pmId,
-            this.criteriaCheckService.countAvailableCriteria(typeCriteria.filter(criteria => {
-              return !criteria.isRequired;
-            }), false)
-          );
+            this.criteriaCheckService.countAvailableCriteria(optCriteriaMap, false));
         }
       });
     });
@@ -111,5 +110,20 @@ export class ReviewContainerComponent implements OnInit {
         && (this.availableRequiredCriteriaByProgramMajorIds.get(key) === 0)
         && (this.hasAlternatesButNoPrimariesForProgram(key) === false);
     }, true);
+  }
+
+  buildCriteriaMap(typeCriteriaList: ElectiveCriterion[]): Map<string, Map<string, ElectiveCriterion[]>> {
+    const criteriaMap = new Map<string, Map<string, ElectiveCriterion[]>>();
+    typeCriteriaList.forEach((c: ElectiveCriterion) => {
+      const orMap = criteriaMap.get(c.orGroup) || new Map<string, ElectiveCriterion[]>();
+      const andList = orMap.get(c.andGroup) || new Array<ElectiveCriterion>();
+
+      andList.push(c);
+      orMap.set(c.andGroup, andList);
+
+      criteriaMap.set(c.orGroup, orMap);
+    });
+
+    return criteriaMap;
   }
 }

@@ -5,6 +5,7 @@ import {Elective} from '../classes/elective';
 import {Education} from '../classes/education';
 import {CriteriaCheckService} from '../services/criteria-check.service';
 import {TypeCount} from '../classes/type-count';
+import {ElectiveCriteriaGroup} from '../classes/elective-criteria-group';
 
 @Component({
   selector: 'iee-elective-criteria-container',
@@ -17,7 +18,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
   electives: Elective[] = [];
   electiveCriteria = new Map<string, ElectiveCriterion[]>();
   periodCriteria: ElectiveCriterion[] = [];
-  typeCriteria = new Map<string, Map<string, ElectiveCriterion[]>>();
+  typeCriteria: ElectiveCriteriaGroup[] = [];
   criteriaTypeCounts: TypeCount[] = [];
   electiveTypeCounts: TypeCount[] = [];
   private criteriaSatisfiedTypeCounts: TypeCount[] = [];
