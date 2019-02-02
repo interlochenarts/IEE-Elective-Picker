@@ -52,25 +52,23 @@ export class ReviewContainerComponent implements OnInit {
         }
 
         if (this.electiveCriteria.get(pmId)) {
-          const typeCriteria = this.electiveCriteria.get(pmId).filter(c => {
-            return c.requirementType === 'type';
-          });
-
           const primaryElectives = this.primaryElectivesByProgramMajorIds.get(pmId);
 
-          const typeCriteriaMap = this.buildCriteriaMap(typeCriteria);
-          const criteriaMap = this.criteriaCheckService.buildTypeCriteriaMap(typeCriteriaMap,
-            this.education.sessionsByProgramMajorIds[pmId]);
-          this.criteriaCheckService.checkCriteriaCheckMarks(typeCriteriaMap, primaryElectives, criteriaMap);
+          const typeCriteria = this.criteriaCheckService.initializeTypeCriteriaList(pmId, this.electiveCriteria);
+          const criteriaMap = this.criteriaCheckService.buildTypeCriteriaMap(typeCriteria, this.education.sessionsByProgramMajorIds[pmId]);
+          this.criteriaCheckService.checkCriteriaCheckMarks(typeCriteria, primaryElectives, criteriaMap);
 
-          const reqCriteriaMap = this.buildCriteriaMap(typeCriteria.filter(criteria => criteria.isRequired));
           this.availableRequiredCriteriaByProgramMajorIds.set(pmId,
-            this.criteriaCheckService.countAvailableCriteria(reqCriteriaMap, false)
+            this.criteriaCheckService.countAvailableCriteria(typeCriteria.filter(criteria => {
+              return criteria.isRequired;
+            }), false)
           );
 
-          const optCriteriaMap = this.buildCriteriaMap(typeCriteria.filter(criteria => criteria.isRequired));
           this.availableOptionalCriteriaByProgramMajorIds.set(pmId,
-            this.criteriaCheckService.countAvailableCriteria(optCriteriaMap, false));
+            this.criteriaCheckService.countAvailableCriteria(typeCriteria.filter(criteria => {
+              return !criteria.isRequired;
+            }), false)
+          );
         }
       });
     });
@@ -92,7 +90,7 @@ export class ReviewContainerComponent implements OnInit {
   onClickCheckbox() {
     if (this.canClickCheckbox()) {
       this.readyToSubmit = this.readyToSubmit !== true;
-    }
+  }
   }
 
   hasAlternatesButNoPrimariesForProgram(pmId: string): boolean {
@@ -110,20 +108,5 @@ export class ReviewContainerComponent implements OnInit {
         && (this.availableRequiredCriteriaByProgramMajorIds.get(key) === 0)
         && (this.hasAlternatesButNoPrimariesForProgram(key) === false);
     }, true);
-  }
-
-  buildCriteriaMap(typeCriteriaList: ElectiveCriterion[]): Map<string, Map<string, ElectiveCriterion[]>> {
-    const criteriaMap = new Map<string, Map<string, ElectiveCriterion[]>>();
-    typeCriteriaList.forEach((c: ElectiveCriterion) => {
-      const orMap = criteriaMap.get(c.orGroup) || new Map<string, ElectiveCriterion[]>();
-      const andList = orMap.get(c.andGroup) || new Array<ElectiveCriterion>();
-
-      andList.push(c);
-      orMap.set(c.andGroup, andList);
-
-      criteriaMap.set(c.orGroup, orMap);
-    });
-
-    return criteriaMap;
   }
 }

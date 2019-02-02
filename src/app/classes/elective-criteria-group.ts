@@ -5,6 +5,8 @@ export class ElectiveCriteriaGroup {
   orCriteria: ElectiveCriterion[];
   andCriteria: Map<string, ElectiveCriterion[]>;
   isSatisfied = false;
+  courseSession: string;
+  isRequired: boolean;
 
   constructor(groupName: string) {
     this.orCriteria = new Array<ElectiveCriterion>();
