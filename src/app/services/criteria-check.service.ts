@@ -3,10 +3,14 @@ import {ElectiveCriterion} from '../classes/elective-criterion';
 import {Elective} from '../classes/elective';
 import {TypeCount} from '../classes/type-count';
 import {ElectiveDataService} from './elective-data-service';
+import {ElectiveCriteriaGroup} from '../classes/elective-criteria-group';
 
 @Injectable()
 export class CriteriaCheckService {
   private static criterionIsMet(criterion: ElectiveCriterion, elective: Elective): boolean {
+    // console.log('criterionIsMet | [criterion, elective]:');
+    // console.log([criterion, elective]);
+
     // true if satisfied, false if not
     if (criterion.courseSession) {
       return criterion.typeList.indexOf(elective.electiveType) > -1
@@ -15,7 +19,48 @@ export class CriteriaCheckService {
     return criterion.typeList.indexOf(elective.electiveType) > -1;
   }
 
-  initializeTypeCriteriaList(pmId: string, electiveCriteria: Map<string, ElectiveCriterion[]>): ElectiveCriterion[] {
+  private static criteriaGroupIsMet(criteriaGroup: ElectiveCriteriaGroup, elective: Elective): boolean {
+    if (criteriaGroup.isSatisfied) {
+      return true;
+    } else {
+      // check the or group elective criteria
+      for (let i = 0; i < criteriaGroup.orCriteria.length; i++) {
+        const satisfied = CriteriaCheckService.criterionIsMet(criteriaGroup.orCriteria[i], elective);
+        if (satisfied) {
+          criteriaGroup.orCriteria[i].isSatisfied = true;
+          criteriaGroup.isSatisfied = true;
+          return true;
+        }
+      }
+
+      // check the and group elective criteria
+      for (const andGroup of Array.from(criteriaGroup.andCriteria.keys())) {
+        // console.log('criteriaGroupIsMet | andGroup');
+        // console.log(andGroup);
+        const criteria: ElectiveCriterion[] = criteriaGroup.andCriteria.get(andGroup);
+
+        const groupSatisfied = criteria.reduce((result: boolean, criterion: ElectiveCriterion) => {
+          // side effect
+          criterion.isSatisfied = criterion.isSatisfied || CriteriaCheckService.criterionIsMet(criterion, elective);
+          return result && criterion.isSatisfied;
+        }, true);
+
+        if (groupSatisfied) {
+          criteriaGroup.isSatisfied = true;
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  initializeTypeCriteriaList(pmId: string,
+                             electiveCriteria: Map<string, ElectiveCriterion[]>): ElectiveCriteriaGroup[] {
+
+    console.log('initializeTypeCriteriaList | electiveCriteria');
+    console.log(electiveCriteria);
+
     let typeCriteria = [];
     const criteriaByPMId = electiveCriteria.get(pmId);
     if (criteriaByPMId) {
@@ -27,7 +72,60 @@ export class CriteriaCheckService {
       }
     }
 
-    return typeCriteria;
+    const criteriaMap = new Map<string, Map<string, ElectiveCriterion[]>>();
+    typeCriteria.forEach((c: ElectiveCriterion) => {
+      const key = c.orGroup + (c.courseSession ? '___' + c.courseSession : '');
+      const orMap = criteriaMap.get(key) || new Map<string, ElectiveCriterion[]>();
+      const andList = orMap.get(c.andGroup) || new Array<ElectiveCriterion>();
+
+      andList.push(c);
+      orMap.set(c.andGroup, andList);
+
+      criteriaMap.set(key, orMap);
+    });
+
+    console.log('initializeTypeCriteriaList | criteriaMap: ');
+    console.log(criteriaMap);
+
+    const criteriaGroups = new Array<ElectiveCriteriaGroup>();
+    criteriaMap.forEach((orGroup: Map<string, ElectiveCriterion[]>, orGroupName: string) => {
+      let group: ElectiveCriteriaGroup;
+      if (orGroupName && orGroupName !== 'null') {
+        const groupSession = orGroupName.split('___');
+        group = new ElectiveCriteriaGroup(groupSession[0]);
+        group.courseSession = groupSession[1] ? groupSession[1] : null;
+
+        orGroup.forEach((andList: ElectiveCriterion[], andGroupName: string) => {
+          if (andGroupName) {
+            const groupAnds = group.andCriteria.get(andGroupName) || new Array<ElectiveCriterion>();
+            andList.forEach((c: ElectiveCriterion) => {
+              groupAnds.push(c);
+              group.isRequired = c.isRequired;
+              group.andCriteria.set(andGroupName, groupAnds);
+            });
+          } else {
+            group.orCriteria = group.orCriteria.concat(andList);
+          }
+        });
+        criteriaGroups.push(group);
+      } else {
+        // no or group name, so we want a new one for each criterion
+        orGroup.forEach((andList: ElectiveCriterion[]) => {
+          andList.forEach((c: ElectiveCriterion) => {
+            group = new ElectiveCriteriaGroup(null);
+            group.courseSession = c.courseSession;
+            group.isRequired = group.isRequired || c.isRequired;
+            group.orCriteria.push(c);
+            criteriaGroups.push(group);
+          });
+        });
+      }
+    });
+
+    console.log('initializeTypeCriteriaList | criteriaGroups: ');
+    console.log(criteriaGroups);
+
+    return criteriaGroups;
   }
 
   initializePeriodCriteriaList(pmId: string, electiveCriteria: Map<string, ElectiveCriterion[]>): ElectiveCriterion[] {
@@ -45,13 +143,19 @@ export class CriteriaCheckService {
     return periodCriteria;
   }
 
-  public checkCriteriaCheckMarks(typeCriteria: ElectiveCriterion[],
-                                 primaryElectives: Elective[], criteriaMap: Map<string, number>) {
+  public checkCriteriaCheckMarks(typeCriteria: ElectiveCriteriaGroup[],
+                                 primaryElectives: Elective[],
+                                 criteriaMap: Map<string, number>): void {
     // unset all check marks
-    for (let i = 0; i < typeCriteria.length; i++) {
-      typeCriteria[i].isSatisfied = false;
-    }
+    typeCriteria.forEach(group => {
+      group.isSatisfied = false;
+      group.orCriteria.forEach(c => c.isSatisfied = false);
+      if (group.andCriteria.size > 0) {
+        [].concat.apply([], Array.from(group.andCriteria.values())).forEach(c => c.isSatisfied = false);
+      }
+    });
 
+    // TODO: this probably fails with the new changes
     const electives = primaryElectives.slice(0);
     electives.sort((a, b) => {
       return criteriaMap.get(a.electiveType) - criteriaMap.get(b.electiveType);
@@ -63,30 +167,47 @@ export class CriteriaCheckService {
           continue;
         }
 
-        if (CriteriaCheckService.criterionIsMet(typeCriteria[i], elective)) {
+        if (CriteriaCheckService.criteriaGroupIsMet(typeCriteria[i], elective)) {
           typeCriteria[i].isSatisfied = true;
           break;
         }
       }
     });
+
+    console.log('checkCriteriaCheckMarks | typeCriteria: ');
+    console.log(typeCriteria);
   }
 
-  buildTypeCriteriaMap(ecs: ElectiveCriterion[], campSession: string): Map<string, number> {
+  buildTypeCriteriaMap(ecs: ElectiveCriteriaGroup[], campSession: string): Map<string, number> {
     const criteriaMap: Map<string, number> = new Map<string, number>();
-    ecs.forEach(criterion => {
-      criterion.typeList.forEach(type => {
-        let key = '';
-        if (criterion.courseSession) {
-          key = type + criterion.courseSession;
-        } else {
-          key = type + campSession;
-        }
-        const count = criteriaMap.get(key);
-        if (!count) {
-          criteriaMap.set(key, 1);
-        } else {
+    ecs.forEach((group: ElectiveCriteriaGroup) => {
+      group.orCriteria.forEach(criterion => {
+        criterion.typeList.forEach(type => {
+          let key = type;
+          if (criterion.courseSession) {
+            key += criterion.courseSession;
+          } else {
+            key += campSession;
+          }
+
+          const count = criteriaMap.get(key) || 0;
           criteriaMap.set(key, count + 1);
-        }
+        });
+      });
+      group.andCriteria.forEach(ands => {
+        ands.forEach(criterion => {
+          criterion.typeList.forEach(type => {
+            let key = type;
+            if (criterion.courseSession) {
+              key += criterion.courseSession;
+            } else {
+              key += campSession;
+            }
+
+            const count = criteriaMap.get(key) || 0;
+            criteriaMap.set(key, count + 1);
+          });
+        });
       });
     });
 
@@ -96,10 +217,10 @@ export class CriteriaCheckService {
     return criteriaMap;
   }
 
-  buildCriteriaCounts(ecs: ElectiveCriterion[], criteriaMap: Map<string, number>): TypeCount[] {
+  buildCriteriaCounts(criteriaMap: Map<string, number>): TypeCount[] {
     const criteriaList: TypeCount[] = [];
     for (const c of Array.from(criteriaMap.entries())) {
-      criteriaList.push({type: c[0], count: c[1]});
+      criteriaList.push(new TypeCount(c[0], c[1]));
     }
     criteriaList.sort((a, b) => {
       return b.count - a.count;
@@ -122,9 +243,7 @@ export class CriteriaCheckService {
 
     const typeList: TypeCount[] = [];
     for (const c of Array.from(electiveTypeCountMap.entries())) {
-      const tc: TypeCount = new TypeCount();
-      tc.type = c[0];
-      tc.count = c[1];
+      const tc: TypeCount = new TypeCount(c[0], c[1]);
       typeList.push(tc);
     }
 
@@ -138,13 +257,18 @@ export class CriteriaCheckService {
     return typeList;
   }
 
-  getCriteriaTypeSatisfiedCounts(electiveTypeCounts: TypeCount[], criteria: ElectiveCriterion[], campSession: string): TypeCount[] {
+  getCriteriaTypeSatisfiedCounts(electiveTypeCounts: TypeCount[],
+                                 criteria: ElectiveCriteriaGroup[], campSession: string): TypeCount[] {
     // need a deep copy of criteria
-    const criteriaCopy: ElectiveCriterion[] = JSON.parse(JSON.stringify(criteria));
+    const criteriaCopy: ElectiveCriteriaGroup[] = JSON.parse(JSON.stringify(criteria));
 
     // make sure all criteria are unsatisfied
-    criteriaCopy.forEach(c => {
-      c.isSatisfied = false;
+    criteriaCopy.forEach(cg => {
+      cg.isSatisfied = false; // set groups
+      cg.orCriteria.forEach(c => c.isSatisfied = false);
+      if (cg.andCriteria.size > 0) {
+        [].concat.apply([], Array.from(cg.andCriteria.values())).forEach(c => c.isSatisfied = false);
+      }
     });
 
     // console.log('getCriteriaTypeSatisfiedCounts | criteriaCopy: ');
@@ -155,31 +279,38 @@ export class CriteriaCheckService {
     electiveTypeCounts.forEach(type => {
       for (let i = 0; i < type.count; i++) {
         for (let j = 0; j < criteriaCopy.length; j++) {
-          const c = criteriaCopy[j];
-          const typesWithSessions = c.typeList.map(t => {
-            if (c.courseSession) {
-              return t + c.courseSession;
-            } else {
-              return t + campSession;
-            }
-          });
-          // console.log('getCriteriaTypeSatisfiedCounts | criteriaCopy[' + j + ']: ');
-          // console.log(criteriaCopy[j]);
+          const group = criteriaCopy[j];
+          let groups: ElectiveCriterion[];
+          if (group.andCriteria.size > 0) {
+            const andLists = [].concat.apply([], Array.from(group.andCriteria.values()));
+            groups = group.orCriteria.concat(andLists);
+          } else {
+            groups = group.orCriteria;
+          }
 
-          // console.log('getCriteriaTypeSatisfiedCounts | typesWithSessions (' + j + ')');
-          // console.log(typesWithSessions);
-
-          if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1) {
-            c.isSatisfied = true;
-            typesWithSessions.forEach(t => {
-              const count = typeCountMap.get(t);
-              if (!count) {
-                typeCountMap.set(t, 1);
+          for (let k = 0; k < groups.length; k++) {
+            const c: ElectiveCriterion = groups[k];
+            const typesWithSessions: string[] = c.typeList.map(t => {
+              if (c.courseSession) {
+                return t + c.courseSession;
               } else {
-                typeCountMap.set(t, count + 1);
+                return t + campSession;
               }
             });
-            break;
+
+            // console.log('getCriteriaTypeSatisfiedCounts | criteriaCopy[' + j + ']: ');
+            // console.log(criteriaCopy[j]);
+            // console.log('getCriteriaTypeSatisfiedCounts | typesWithSessions (' + j + ')');
+            // console.log(typesWithSessions);
+
+            if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1) {
+              c.isSatisfied = true;
+              typesWithSessions.forEach(t => {
+                const count = typeCountMap.get(t) || 0;
+                typeCountMap.set(t, count + 1);
+              });
+              break;
+            }
           }
         }
       }
@@ -187,9 +318,7 @@ export class CriteriaCheckService {
 
     const typeList: TypeCount[] = [];
     for (const c of Array.from(typeCountMap.entries())) {
-      const tc: TypeCount = new TypeCount();
-      tc.type = c[0];
-      tc.count = c[1];
+      const tc: TypeCount = new TypeCount(c[0], c[1]);
       typeList.push(tc);
     }
 
@@ -204,11 +333,15 @@ export class CriteriaCheckService {
   }
 
   checkClosedTypes(criteriaTypeCounts: TypeCount[], criteriaSatisfiedTypeCounts: TypeCount[]): string[] {
+    // console.log('checkClosedTypes | criteriaTypeCounts: ');
+    // console.log(criteriaTypeCounts);
+    // console.log('checkClosedTypes | criteriaSatisfiedTypeCounts: ');
+    // console.log(criteriaSatisfiedTypeCounts);
+
     const closedTypeList: string[] = [];
     criteriaTypeCounts.forEach(criteriaType => {
       criteriaSatisfiedTypeCounts.forEach(satisfiedType => {
         if (criteriaType.type === satisfiedType.type && criteriaType.count === satisfiedType.count) {
-          // TODO: make sure this actually works
           closedTypeList.push(satisfiedType.type);
         }
       });
@@ -253,16 +386,16 @@ export class CriteriaCheckService {
   }
 
   // counts the criteria which haven't been satisfied yet
-  countAvailableCriteria(typeCriteria: ElectiveCriterion[], broadcast: boolean): number {
-    const available = typeCriteria.reduce((count, criterion) => {
+  countAvailableCriteria(criteriaGroups: ElectiveCriteriaGroup[], broadcast: boolean): number {
+    const available = criteriaGroups.reduce((count, criterion) => {
       return count - (criterion.isSatisfied ? 1 : 0);
-    }, typeCriteria.length);
+    }, criteriaGroups.length);
 
     const availMapBySession = new Map<string, number>();
-    typeCriteria.forEach(criterion => {
-      if (criterion.courseSession && !criterion.isSatisfied) {
-        const a = availMapBySession.get(criterion.courseSession) || 0;
-        availMapBySession.set(criterion.courseSession, a + 1);
+    criteriaGroups.forEach(group => {
+      if (group.courseSession && !group.isSatisfied) {
+        const a = availMapBySession.get(group.courseSession) || 0;
+        availMapBySession.set(group.courseSession, a + 1);
       }
     });
 

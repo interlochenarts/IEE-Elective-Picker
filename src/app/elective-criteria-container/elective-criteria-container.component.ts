@@ -5,6 +5,7 @@ import {Elective} from '../classes/elective';
 import {Education} from '../classes/education';
 import {CriteriaCheckService} from '../services/criteria-check.service';
 import {TypeCount} from '../classes/type-count';
+import {ElectiveCriteriaGroup} from '../classes/elective-criteria-group';
 
 @Component({
   selector: 'iee-elective-criteria-container',
@@ -15,9 +16,9 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
   @Input() activeProgramMajorId: string;
   education: Education;
   electives: Elective[] = [];
-  electiveCriteria: Map<string, ElectiveCriterion[]> = new Map<string, ElectiveCriterion[]>();
+  electiveCriteria = new Map<string, ElectiveCriterion[]>();
   periodCriteria: ElectiveCriterion[] = [];
-  typeCriteria: ElectiveCriterion[] = [];
+  typeCriteria: ElectiveCriteriaGroup[] = [];
   criteriaTypeCounts: TypeCount[] = [];
   electiveTypeCounts: TypeCount[] = [];
   private criteriaSatisfiedTypeCounts: TypeCount[] = [];
@@ -76,7 +77,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
       this.criteriaMap = this.criteriaCheckService.buildTypeCriteriaMap(this.typeCriteria,
         this.education.sessionsByProgramMajorIds[this.activeProgramMajorId]);
     }
-    this.criteriaTypeCounts = this.criteriaCheckService.buildCriteriaCounts(this.typeCriteria, this.criteriaMap);
+    this.criteriaTypeCounts = this.criteriaCheckService.buildCriteriaCounts(this.criteriaMap);
     this.electiveTypeCounts = this.criteriaCheckService.getElectiveTypeChosenCounts(this.primaryElectives);
     if (this.education) {
       this.criteriaSatisfiedTypeCounts = this.criteriaCheckService.getCriteriaTypeSatisfiedCounts(this.electiveTypeCounts,

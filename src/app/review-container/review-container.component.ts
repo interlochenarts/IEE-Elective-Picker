@@ -52,12 +52,9 @@ export class ReviewContainerComponent implements OnInit {
         }
 
         if (this.electiveCriteria.get(pmId)) {
-          const typeCriteria = this.electiveCriteria.get(pmId).filter(c => {
-            return c.requirementType === 'type';
-          });
-
           const primaryElectives = this.primaryElectivesByProgramMajorIds.get(pmId);
 
+          const typeCriteria = this.criteriaCheckService.initializeTypeCriteriaList(pmId, this.electiveCriteria);
           const criteriaMap = this.criteriaCheckService.buildTypeCriteriaMap(typeCriteria, this.education.sessionsByProgramMajorIds[pmId]);
           this.criteriaCheckService.checkCriteriaCheckMarks(typeCriteria, primaryElectives, criteriaMap);
 
@@ -93,7 +90,7 @@ export class ReviewContainerComponent implements OnInit {
   onClickCheckbox() {
     if (this.canClickCheckbox()) {
       this.readyToSubmit = this.readyToSubmit !== true;
-    }
+  }
   }
 
   hasAlternatesButNoPrimariesForProgram(pmId: string): boolean {

@@ -5,7 +5,7 @@ import 'rxjs/add/operator/catch';
 import {Education} from '../classes/education';
 import {ElectiveCriterion} from '../classes/elective-criterion';
 import * as cometd from 'cometd/cometd';
-import {FilterListItem} from "../classes/filter-list-item";
+import {FilterListItem} from '../classes/filter-list-item';
 
 declare const Visualforce: any;
 
