@@ -19,7 +19,7 @@ export class ElectiveCriteriaGroup {
     this.orCriteria.forEach((c, index, array) => {
       desc += c.description;
       if ((index < array.length - 1) || this.andCriteria.size > 0) {
-        desc += '<br />&mdash; OR &mdash;<br />';
+        desc += '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&mdash; OR &mdash;<br />';
       }
     });
 
@@ -33,7 +33,7 @@ export class ElectiveCriteriaGroup {
         }
       });
       if (count < this.andCriteria.size) {
-        desc += '<br />&mdash; OR &mdash;<br />';
+        desc += '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&mdash; OR &mdash;<br />';
       }
     });
 

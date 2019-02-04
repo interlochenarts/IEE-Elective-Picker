@@ -8,9 +8,9 @@ import {ElectiveCriteriaGroup} from '../classes/elective-criteria-group';
 @Injectable()
 export class CriteriaCheckService {
   private static criterionIsMet(criterion: ElectiveCriterion, elective: Elective): boolean {
+    // console.log('criterionIsMet | [criterion, elective]:');
+    // console.log([criterion, elective]);
 
-    console.log('criterionIsMet | [criterion, elective]:');
-    console.log([criterion, elective]);
     // true if satisfied, false if not
     if (criterion.courseSession) {
       return criterion.typeList.indexOf(elective.electiveType) > -1
@@ -35,8 +35,8 @@ export class CriteriaCheckService {
 
       // check the and group elective criteria
       for (const andGroup of Array.from(criteriaGroup.andCriteria.keys())) {
-        console.log('criteriaGroupIsMet | andGroup');
-        console.log(andGroup);
+        // console.log('criteriaGroupIsMet | andGroup');
+        // console.log(andGroup);
         const criteria: ElectiveCriterion[] = criteriaGroup.andCriteria.get(andGroup);
 
         const groupSatisfied = criteria.reduce((result: boolean, criterion: ElectiveCriterion) => {
@@ -84,10 +84,13 @@ export class CriteriaCheckService {
       criteriaMap.set(key, orMap);
     });
 
+    console.log('initializeTypeCriteriaList | criteriaMap: ');
+    console.log(criteriaMap);
+
     const criteriaGroups = new Array<ElectiveCriteriaGroup>();
     criteriaMap.forEach((orGroup: Map<string, ElectiveCriterion[]>, orGroupName: string) => {
       let group: ElectiveCriteriaGroup;
-      if (orGroupName) {
+      if (orGroupName && orGroupName !== 'null') {
         const groupSession = orGroupName.split('___');
         group = new ElectiveCriteriaGroup(groupSession[0]);
         group.courseSession = groupSession[1] ? groupSession[1] : null;
