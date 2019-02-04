@@ -96,11 +96,11 @@ export class CriteriaCheckService {
         group.courseSession = groupSession[1] ? groupSession[1] : null;
 
         orGroup.forEach((andList: ElectiveCriterion[], andGroupName: string) => {
-          if (andGroupName) {
+          if (andGroupName && andGroupName !== 'null') {
             const groupAnds = group.andCriteria.get(andGroupName) || new Array<ElectiveCriterion>();
             andList.forEach((c: ElectiveCriterion) => {
               groupAnds.push(c);
-              group.isRequired = c.isRequired;
+              group.isRequired = group.isRequired || c.isRequired;
               group.andCriteria.set(andGroupName, groupAnds);
             });
           } else {
