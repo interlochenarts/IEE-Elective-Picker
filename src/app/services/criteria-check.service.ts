@@ -278,39 +278,34 @@ export class CriteriaCheckService {
     // iterate across all the selected types
     electiveTypeCounts.forEach(type => {
       for (let i = 0; i < type.count; i++) {
+        let groups: ElectiveCriterion[] = [];
         for (let j = 0; j < criteriaCopy.length; j++) {
           const group = criteriaCopy[j];
-          let groups: ElectiveCriterion[];
           if (group.andCriteria.size > 0) {
             const andLists = [].concat.apply([], Array.from(group.andCriteria.values()));
-            groups = group.orCriteria.concat(andLists);
+            groups = groups.concat(group.orCriteria.concat(andLists));
           } else {
-            groups = group.orCriteria;
+            groups = groups.concat(group.orCriteria);
           }
+        }
 
-          for (let k = 0; k < groups.length; k++) {
-            const c: ElectiveCriterion = groups[k];
-            const typesWithSessions: string[] = c.typeList.map(t => {
-              if (c.courseSession) {
-                return t + c.courseSession;
-              } else {
-                return t + campSession;
-              }
-            });
-
-            // console.log('getCriteriaTypeSatisfiedCounts | criteriaCopy[' + j + ']: ');
-            // console.log(criteriaCopy[j]);
-            // console.log('getCriteriaTypeSatisfiedCounts | typesWithSessions (' + j + ')');
-            // console.log(typesWithSessions);
-
-            if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1) {
-              c.isSatisfied = true;
-              typesWithSessions.forEach(t => {
-                const count = typeCountMap.get(t) || 0;
-                typeCountMap.set(t, count + 1);
-              });
-              break;
+        for (let k = 0; k < groups.length; k++) {
+          const c: ElectiveCriterion = groups[k];
+          const typesWithSessions: string[] = c.typeList.map(t => {
+            if (c.courseSession) {
+              return t + c.courseSession;
+            } else {
+              return t + campSession;
             }
+          });
+
+          if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1) {
+            c.isSatisfied = true;
+            typesWithSessions.forEach(t => {
+              const count = typeCountMap.get(t) || 0;
+              typeCountMap.set(t, count + 1);
+            });
+            break;
           }
         }
       }
