@@ -58,8 +58,8 @@ export class CriteriaCheckService {
   initializeTypeCriteriaList(pmId: string,
                              electiveCriteria: Map<string, ElectiveCriterion[]>): ElectiveCriteriaGroup[] {
 
-    console.log('initializeTypeCriteriaList | electiveCriteria');
-    console.log(electiveCriteria);
+    // console.log('initializeTypeCriteriaList | electiveCriteria');
+    // console.log(electiveCriteria);
 
     let typeCriteria = [];
     const criteriaByPMId = electiveCriteria.get(pmId);
@@ -84,8 +84,8 @@ export class CriteriaCheckService {
       criteriaMap.set(key, orMap);
     });
 
-    console.log('initializeTypeCriteriaList | criteriaMap: ');
-    console.log(criteriaMap);
+    // console.log('initializeTypeCriteriaList | criteriaMap: ');
+    // console.log(criteriaMap);
 
     const criteriaGroups = new Array<ElectiveCriteriaGroup>();
     criteriaMap.forEach((orGroup: Map<string, ElectiveCriterion[]>, orGroupName: string) => {
@@ -122,8 +122,8 @@ export class CriteriaCheckService {
       }
     });
 
-    console.log('initializeTypeCriteriaList | criteriaGroups: ');
-    console.log(criteriaGroups);
+    // console.log('initializeTypeCriteriaList | criteriaGroups: ');
+    // console.log(criteriaGroups);
 
     return criteriaGroups;
   }
@@ -174,8 +174,8 @@ export class CriteriaCheckService {
       }
     });
 
-    console.log('checkCriteriaCheckMarks | typeCriteria: ');
-    console.log(typeCriteria);
+    // console.log('checkCriteriaCheckMarks | typeCriteria: ');
+    // console.log(typeCriteria);
   }
 
   buildTypeCriteriaMap(ecs: ElectiveCriteriaGroup[], campSession: string): Map<string, number> {
@@ -258,17 +258,13 @@ export class CriteriaCheckService {
   }
 
   getCriteriaTypeSatisfiedCounts(electiveTypeCounts: TypeCount[],
-                                 criteria: ElectiveCriteriaGroup[], campSession: string): TypeCount[] {
+                                 criteria: ElectiveCriterion[], campSession: string): TypeCount[] {
     // need a deep copy of criteria
-    const criteriaCopy: ElectiveCriteriaGroup[] = JSON.parse(JSON.stringify(criteria));
+    const criteriaCopy: ElectiveCriterion[] = JSON.parse(JSON.stringify(criteria));
 
     // make sure all criteria are unsatisfied
-    criteriaCopy.forEach(cg => {
-      cg.isSatisfied = false; // set groups
-      cg.orCriteria.forEach(c => c.isSatisfied = false);
-      if (cg.andCriteria.size > 0) {
-        [].concat.apply([], Array.from(cg.andCriteria.values())).forEach(c => c.isSatisfied = false);
-      }
+    criteriaCopy.forEach(c => {
+      c.isSatisfied = false;
     });
 
     // console.log('getCriteriaTypeSatisfiedCounts | criteriaCopy: ');
@@ -278,39 +274,23 @@ export class CriteriaCheckService {
     // iterate across all the selected types
     electiveTypeCounts.forEach(type => {
       for (let i = 0; i < type.count; i++) {
-        for (let j = 0; j < criteriaCopy.length; j++) {
-          const group = criteriaCopy[j];
-          let groups: ElectiveCriterion[];
-          if (group.andCriteria.size > 0) {
-            const andLists = [].concat.apply([], Array.from(group.andCriteria.values()));
-            groups = group.orCriteria.concat(andLists);
-          } else {
-            groups = group.orCriteria;
-          }
-
-          for (let k = 0; k < groups.length; k++) {
-            const c: ElectiveCriterion = groups[k];
-            const typesWithSessions: string[] = c.typeList.map(t => {
-              if (c.courseSession) {
-                return t + c.courseSession;
-              } else {
-                return t + campSession;
-              }
-            });
-
-            // console.log('getCriteriaTypeSatisfiedCounts | criteriaCopy[' + j + ']: ');
-            // console.log(criteriaCopy[j]);
-            // console.log('getCriteriaTypeSatisfiedCounts | typesWithSessions (' + j + ')');
-            // console.log(typesWithSessions);
-
-            if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1) {
-              c.isSatisfied = true;
-              typesWithSessions.forEach(t => {
-                const count = typeCountMap.get(t) || 0;
-                typeCountMap.set(t, count + 1);
-              });
-              break;
+        for (let k = 0; k < criteriaCopy.length; k++) {
+          const c: ElectiveCriterion = criteriaCopy[k];
+          const typesWithSessions: string[] = c.typeList.map(t => {
+            if (c.courseSession) {
+              return t + c.courseSession;
+            } else {
+              return t + campSession;
             }
+          });
+
+          if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1) {
+            c.isSatisfied = true;
+            typesWithSessions.forEach(t => {
+              const count = typeCountMap.get(t) || 0;
+              typeCountMap.set(t, count + 1);
+            });
+            break;
           }
         }
       }
