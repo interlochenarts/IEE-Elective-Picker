@@ -81,7 +81,8 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
     this.electiveTypeCounts = this.criteriaCheckService.getElectiveTypeChosenCounts(this.primaryElectives);
     if (this.education && this.electiveCriteria) {
       this.criteriaSatisfiedTypeCounts = this.criteriaCheckService.getCriteriaTypeSatisfiedCounts(this.electiveTypeCounts,
-        this.electiveCriteria.get(this.activeProgramMajorId), this.education.sessionsByProgramMajorIds[this.activeProgramMajorId]);
+        this.electiveCriteria.get(this.activeProgramMajorId).filter(c => c.requirementType === 'type'),
+        this.education.sessionsByProgramMajorIds[this.activeProgramMajorId]);
     }
     this.electiveDataService.closedTypes.next(
       this.criteriaCheckService.checkClosedTypes(this.criteriaTypeCounts, this.criteriaSatisfiedTypeCounts)
