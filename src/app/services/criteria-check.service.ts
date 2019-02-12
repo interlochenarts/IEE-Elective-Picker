@@ -23,7 +23,7 @@ export class CriteriaCheckService {
     if (criteriaGroup.isSatisfied) {
       return true;
     } else {
-      if (criteriaGroup.periodNumbers.includes(elective.startPeriod)) {
+      if (criteriaGroup.periodNumbers.length === 0 || criteriaGroup.periodNumbers.includes(elective.startPeriod)) {
         // check the or group elective criteria
         for (let i = 0; i < criteriaGroup.orCriteria.length; i++) {
           const satisfied = CriteriaCheckService.criterionIsMet(criteriaGroup.orCriteria[i], elective);
