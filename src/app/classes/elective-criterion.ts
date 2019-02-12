@@ -14,6 +14,7 @@ export class ElectiveCriterion {
   typeList: string[];
   orGroup: string;
   andGroup: string;
+  orGroupPeriods: string;
 
   // TODO: should be global somehow
   private timePeriodMap = {

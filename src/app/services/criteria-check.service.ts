@@ -23,31 +23,33 @@ export class CriteriaCheckService {
     if (criteriaGroup.isSatisfied) {
       return true;
     } else {
-      // check the or group elective criteria
-      for (let i = 0; i < criteriaGroup.orCriteria.length; i++) {
-        const satisfied = CriteriaCheckService.criterionIsMet(criteriaGroup.orCriteria[i], elective);
-        if (satisfied) {
-          criteriaGroup.orCriteria[i].isSatisfied = true;
-          criteriaGroup.isSatisfied = true;
-          return true;
+      if (criteriaGroup.periodNumbers.includes(elective.startPeriod)) {
+        // check the or group elective criteria
+        for (let i = 0; i < criteriaGroup.orCriteria.length; i++) {
+          const satisfied = CriteriaCheckService.criterionIsMet(criteriaGroup.orCriteria[i], elective);
+          if (satisfied) {
+            criteriaGroup.orCriteria[i].isSatisfied = true;
+            criteriaGroup.isSatisfied = true;
+            return true;
+          }
         }
-      }
 
-      // check the and group elective criteria
-      for (const andGroup of Array.from(criteriaGroup.andCriteria.keys())) {
-        // console.log('criteriaGroupIsMet | andGroup');
-        // console.log(andGroup);
-        const criteria: ElectiveCriterion[] = criteriaGroup.andCriteria.get(andGroup);
+        // check the and group elective criteria
+        for (const andGroup of Array.from(criteriaGroup.andCriteria.keys())) {
+          // console.log('criteriaGroupIsMet | andGroup');
+          // console.log(andGroup);
+          const criteria: ElectiveCriterion[] = criteriaGroup.andCriteria.get(andGroup);
 
-        const groupSatisfied = criteria.reduce((result: boolean, criterion: ElectiveCriterion) => {
-          // side effect
-          criterion.isSatisfied = criterion.isSatisfied || CriteriaCheckService.criterionIsMet(criterion, elective);
-          return result && criterion.isSatisfied;
-        }, true);
+          const groupSatisfied = criteria.reduce((result: boolean, criterion: ElectiveCriterion) => {
+            // side effect
+            criterion.isSatisfied = criterion.isSatisfied || CriteriaCheckService.criterionIsMet(criterion, elective);
+            return result && criterion.isSatisfied;
+          }, true);
 
-        if (groupSatisfied) {
-          criteriaGroup.isSatisfied = true;
-          return true;
+          if (groupSatisfied) {
+            criteriaGroup.isSatisfied = true;
+            return true;
+          }
         }
       }
     }
