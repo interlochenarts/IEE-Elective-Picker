@@ -43,11 +43,13 @@ export class ElectiveCriteriaGroup {
   get periodNumbers(): number[] {
     const periods: Set<number> = new Set<number>();
     this.orCriteria.forEach(c => {
-      if (c.orGroupPeriods) {
-        c.orGroupPeriods.split(';').forEach(p => {
-          periods.add(+p);
-        });
-      }
+      c.orGroupPeriodList.forEach( p => periods.add(p));
+    });
+
+    this.andCriteria.forEach(cs => {
+      cs.forEach(c => {
+        c.orGroupPeriodList.forEach(p => periods.add(p));
+      });
     });
 
     return Array.from(periods);

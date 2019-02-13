@@ -192,6 +192,10 @@ export class CriteriaCheckService {
             key += campSession;
           }
 
+          if (group.periodNumbers.length > 0) {
+            key += '||' + group.periodNumbers.join(',');
+          }
+
           const count = criteriaMap.get(key) || 0;
           criteriaMap.set(key, count + 1);
         });
@@ -204,6 +208,10 @@ export class CriteriaCheckService {
               key += criterion.courseSession;
             } else {
               key += campSession;
+            }
+
+            if (group.periodNumbers.length > 0) {
+              key += '||' + group.periodNumbers.join(',');
             }
 
             const count = criteriaMap.get(key) || 0;
@@ -222,7 +230,14 @@ export class CriteriaCheckService {
   buildCriteriaCounts(criteriaMap: Map<string, number>): TypeCount[] {
     const criteriaList: TypeCount[] = [];
     for (const c of Array.from(criteriaMap.entries())) {
-      criteriaList.push(new TypeCount(c[0], c[1]));
+      const keyPeriod = c[0].split('||');
+      let ps: number[];
+      if (keyPeriod[1]) {
+        ps = keyPeriod[1].split(',').map(p => +p);
+      } else {
+        ps = [];
+      }
+      criteriaList.push(new TypeCount(keyPeriod[0], c[1], ps));
     }
     criteriaList.sort((a, b) => {
       return b.count - a.count;
@@ -234,18 +249,21 @@ export class CriteriaCheckService {
   getElectiveTypeChosenCounts(primaryElectives: Elective[]): TypeCount[] {
     const electiveTypeCountMap: Map<string, number> = new Map<string, number>();
     primaryElectives.forEach(elective => {
-      const key = elective.electiveType + elective.session;
-      const count = electiveTypeCountMap.get(key);
-      if (!count) {
-        electiveTypeCountMap.set(key, 1);
-      } else {
-        electiveTypeCountMap.set(key, count + 1);
-      }
+      const key = elective.electiveType + elective.session + '||' + elective.startPeriod;
+      const count = electiveTypeCountMap.get(key) || 0;
+      electiveTypeCountMap.set(key, count + 1);
     });
 
     const typeList: TypeCount[] = [];
     for (const c of Array.from(electiveTypeCountMap.entries())) {
-      const tc: TypeCount = new TypeCount(c[0], c[1]);
+      const keyPeriod = c[0].split('||');
+      let ps: number[];
+      if (keyPeriod[1]) {
+        ps = keyPeriod[1].split(',').map(p => +p);
+      } else {
+        ps = [];
+      }
+      const tc: TypeCount = new TypeCount(keyPeriod[0], c[1], ps);
       typeList.push(tc);
     }
 
@@ -253,8 +271,8 @@ export class CriteriaCheckService {
       return b.count - a.count;
     });
 
-    // console.log('getElectiveTypeChosenCounts | typeList: ');
-    // console.log(typeList);
+    console.log('getElectiveTypeChosenCounts | typeList: ');
+    console.log(typeList);
 
     return typeList;
   }
@@ -262,35 +280,30 @@ export class CriteriaCheckService {
   getCriteriaTypeSatisfiedCounts(electiveTypeCounts: TypeCount[],
                                  criteria: ElectiveCriterion[], campSession: string): TypeCount[] {
     // need a deep copy of criteria
-    const criteriaCopy: ElectiveCriterion[] = JSON.parse(JSON.stringify(criteria));
+    const criteriaCopy: ElectiveCriterion[] = JSON.parse(JSON.stringify(criteria)).map(j => ElectiveCriterion.createFromJson(j));
 
     // make sure all criteria are unsatisfied
-    criteriaCopy.forEach(c => {
-      c.isSatisfied = false;
-    });
+    criteriaCopy.forEach(c => c.isSatisfied = false);
 
     // console.log('getCriteriaTypeSatisfiedCounts | criteriaCopy: ');
     // console.log(criteriaCopy);
 
-    const typeCountMap: Map<string, number> = new Map<string, number>();
+    const typeCountMap: Map<string, TypeCount> = new Map<string, TypeCount>();
     // iterate across all the selected types
     electiveTypeCounts.forEach(type => {
       for (let i = 0; i < type.count; i++) {
         for (let k = 0; k < criteriaCopy.length; k++) {
           const c: ElectiveCriterion = criteriaCopy[k];
-          const typesWithSessions: string[] = c.typeList.map(t => {
-            if (c.courseSession) {
-              return t + c.courseSession;
-            } else {
-              return t + campSession;
-            }
-          });
+          const typesWithSessions: string[] = c.typeList.map(t => c.courseSession ? t + c.courseSession : t + campSession);
 
-          if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1) {
+          if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1 && c.orGroupPeriodList.includes(type.periods[0])) {
             c.isSatisfied = true;
             typesWithSessions.forEach(t => {
-              const count = typeCountMap.get(t) || 0;
-              typeCountMap.set(t, count + 1);
+              const key = t + '||' + c.orGroupPeriodList.join(',');
+              const count: TypeCount = typeCountMap.get(key) || new TypeCount(t, 0, []);
+              count.count += 1;
+              count.periods = count.periods.concat(c.orGroupPeriodList);
+              typeCountMap.set(key, count);
             });
             break;
           }
@@ -298,33 +311,27 @@ export class CriteriaCheckService {
       }
     });
 
-    const typeList: TypeCount[] = [];
-    for (const c of Array.from(typeCountMap.entries())) {
-      const tc: TypeCount = new TypeCount(c[0], c[1]);
-      typeList.push(tc);
-    }
+    const typeList: TypeCount[] = Array.from(typeCountMap.values());
 
-    typeList.sort((a, b) => {
-      return b.count - a.count;
-    });
+    typeList.sort((a, b) => b.count - a.count);
 
-    // console.log('getCriteriaTypeSatisfiedCounts | typeList: ');
-    // console.log(typeList);
+    console.log('getCriteriaTypeSatisfiedCounts | typeList: ');
+    console.log(typeList);
 
     return typeList;
   }
 
-  checkClosedTypes(criteriaTypeCounts: TypeCount[], criteriaSatisfiedTypeCounts: TypeCount[]): string[] {
-    // console.log('checkClosedTypes | criteriaTypeCounts: ');
-    // console.log(criteriaTypeCounts);
-    // console.log('checkClosedTypes | criteriaSatisfiedTypeCounts: ');
-    // console.log(criteriaSatisfiedTypeCounts);
-
+  checkClosedTypes(possibleTypeCounts: TypeCount[], satisfiedTypeCounts: TypeCount[]): string[] {
     const closedTypeList: string[] = [];
-    criteriaTypeCounts.forEach(criteriaType => {
-      criteriaSatisfiedTypeCounts.forEach(satisfiedType => {
-        if (criteriaType.type === satisfiedType.type && criteriaType.count === satisfiedType.count) {
-          closedTypeList.push(satisfiedType.type);
+    possibleTypeCounts.forEach(possibleType => {
+      satisfiedTypeCounts.forEach(satisfiedType => {
+        // check to see if I have any periods in the satisfied type that are also in the possible type
+        const periodFilled: boolean = satisfiedType.periods
+          .filter(stp => possibleType.periods.includes(stp) || possibleType.periods.length === 0)
+          .length > 0;
+        if (possibleType.type === satisfiedType.type && possibleType.count === satisfiedType.count && periodFilled) {
+          const val = satisfiedType.type + (possibleType.periods.length > 0 ? '||' + possibleType.periods.join(',') : '');
+          closedTypeList.push(val);
         }
       });
     });

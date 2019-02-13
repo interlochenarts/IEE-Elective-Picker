@@ -130,8 +130,15 @@ export class ElectivesComponent implements OnInit, DoCheck {
     return this.selectedPeriods.indexOf(key) > -1;
   }
 
-  private typeClosed(electiveType: string, electiveSession: string): boolean {
-    return this.closedTypes.indexOf(electiveType + electiveSession) > -1;
+  private typeClosed(electiveType: string, electiveSession: string, electivePeriod: number): boolean {
+    const val = electiveType + electiveSession;
+    return this.closedTypes.reduce((closed, type) => {
+      if (type.includes('||')) {
+        const halves = type.split('||');
+        return closed || (halves[1].includes(electivePeriod + '') && halves[0].includes(val));
+      }
+      return closed;
+    }, false);
   }
 
   private electiveCriteriaFilled(): boolean {
@@ -186,7 +193,7 @@ export class ElectivesComponent implements OnInit, DoCheck {
       this.periodFilled(elective.endPeriod, this.isPrimary, elective.session) ||
       this.isCourseSelectedAtDifferentTime(elective) ||
       (this.isPrimary && (
-          (this.typeClosed(elective.electiveType, elective.session) ||
+          (this.typeClosed(elective.electiveType, elective.session, elective.startPeriod) ||
             this.electiveCriteriaForSessionFilled(elective.session) ||
             this.electiveCriteriaFilled())
         )
