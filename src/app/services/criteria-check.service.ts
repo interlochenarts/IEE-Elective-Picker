@@ -185,12 +185,7 @@ export class CriteriaCheckService {
     ecs.forEach((group: ElectiveCriteriaGroup) => {
       group.orCriteria.forEach(criterion => {
         criterion.typeList.forEach(type => {
-          let key = type;
-          if (criterion.courseSession) {
-            key += criterion.courseSession;
-          } else {
-            key += campSession;
-          }
+          let key = type + (criterion.courseSession ? criterion.courseSession : campSession);
 
           if (group.periodNumbers.length > 0) {
             key += '||' + group.periodNumbers.join(',');
@@ -203,12 +198,7 @@ export class CriteriaCheckService {
       group.andCriteria.forEach(ands => {
         ands.forEach(criterion => {
           criterion.typeList.forEach(type => {
-            let key = type;
-            if (criterion.courseSession) {
-              key += criterion.courseSession;
-            } else {
-              key += campSession;
-            }
+            let key = type + (criterion.courseSession ? criterion.courseSession : campSession);
 
             if (group.periodNumbers.length > 0) {
               key += '||' + group.periodNumbers.join(',');
@@ -231,11 +221,9 @@ export class CriteriaCheckService {
     const criteriaList: TypeCount[] = [];
     for (const c of Array.from(criteriaMap.entries())) {
       const keyPeriod = c[0].split('||');
-      let ps: number[];
+      let ps: number[] = [];
       if (keyPeriod[1]) {
         ps = keyPeriod[1].split(',').map(p => +p);
-      } else {
-        ps = [];
       }
       criteriaList.push(new TypeCount(keyPeriod[0], c[1], ps));
     }
@@ -257,22 +245,15 @@ export class CriteriaCheckService {
     const typeList: TypeCount[] = [];
     for (const c of Array.from(electiveTypeCountMap.entries())) {
       const keyPeriod = c[0].split('||');
-      let ps: number[];
+      let ps: number[] = [];
       if (keyPeriod[1]) {
         ps = keyPeriod[1].split(',').map(p => +p);
-      } else {
-        ps = [];
       }
       const tc: TypeCount = new TypeCount(keyPeriod[0], c[1], ps);
       typeList.push(tc);
     }
 
-    typeList.sort((a, b) => {
-      return b.count - a.count;
-    });
-
-    console.log('getElectiveTypeChosenCounts | typeList: ');
-    console.log(typeList);
+    typeList.sort((a, b) => b.count - a.count);
 
     return typeList;
   }
@@ -315,9 +296,6 @@ export class CriteriaCheckService {
 
     typeList.sort((a, b) => b.count - a.count);
 
-    console.log('getCriteriaTypeSatisfiedCounts | typeList: ');
-    console.log(typeList);
-
     return typeList;
   }
 
@@ -347,20 +325,12 @@ export class CriteriaCheckService {
       c.pg1Satisfied = false;
     });
     periodCriteria.forEach(criterion => {
-      const group1: number[] = criterion.periodGroup1.split(';').map(n => {
-        return +n;
-      });
-      const group2: number[] = criterion.periodGroup2.split(';').map(n => {
-        return +n;
-      });
+      const group1: number[] = criterion.periodGroup1.split(';').map(n => +n);
+      const group2: number[] = criterion.periodGroup2.split(';').map(n => +n);
 
       // remove values that are in both lists
-      const a: number[] = group1.filter(period => {
-        return !(group2.indexOf(period) > -1);
-      });
-      const b: number[] = group2.filter(period => {
-        return !(group1.indexOf(period) > -1);
-      });
+      const a: number[] = group1.filter(period => !(group2.indexOf(period) > -1));
+      const b: number[] = group2.filter(period => !(group1.indexOf(period) > -1));
       primaryElectives.forEach(elective => {
         if (a.indexOf(elective.startPeriod) > -1) {
           periodList = periodList.concat(b);
