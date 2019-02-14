@@ -127,6 +127,14 @@ export class CriteriaCheckService {
     // console.log('initializeTypeCriteriaList | criteriaGroups: ');
     // console.log(criteriaGroups);
 
+    criteriaGroups.sort((a, b) => {
+      if (a.periodNumbers.length > 0 && b.periodNumbers.length > 0) {
+        return a.periodNumbers[0] - b.periodNumbers[0];
+      }
+
+      return 0;
+    });
+
     return criteriaGroups;
   }
 
@@ -154,7 +162,8 @@ export class CriteriaCheckService {
       group.orCriteria.forEach(c => c.isSatisfied = false);
       if (group.andCriteria.size > 0) {
         // concat.apply allows me to flatten a list of lists into a single list
-        [].concat.apply([], Array.from(group.andCriteria.values())).forEach(c => c.isSatisfied = false);
+        [].concat.apply([], Array.from(group.andCriteria.values()))
+          .forEach(c => c.isSatisfied = false);
       }
     });
 
@@ -166,11 +175,7 @@ export class CriteriaCheckService {
 
     electives.forEach(elective => {
       for (let i = 0; i < typeCriteria.length; i++) {
-        if (typeCriteria[i].isSatisfied) {
-          continue;
-        }
-
-        if (CriteriaCheckService.criteriaGroupIsMet(typeCriteria[i], elective)) {
+        if (!typeCriteria[i].isSatisfied && CriteriaCheckService.criteriaGroupIsMet(typeCriteria[i], elective)) {
           typeCriteria[i].isSatisfied = true;
           break;
         }
