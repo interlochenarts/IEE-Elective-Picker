@@ -123,8 +123,8 @@ export class ElectivesComponent implements OnInit, DoCheck {
     const val = electiveType + electiveSession;
     return this.closedTypes.reduce((closed, type) => {
       if (type.includes('||')) {
-        const halves = type.split('||');
-        return closed || (halves[1].includes(electivePeriod + '') && halves[0].includes(val));
+        const [key, period] = type.split('||');
+        return closed || (period.includes(electivePeriod + '') && key.includes(val));
       } else {
         return closed || type.includes(val);
       }

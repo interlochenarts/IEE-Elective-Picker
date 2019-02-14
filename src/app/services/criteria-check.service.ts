@@ -93,9 +93,9 @@ export class CriteriaCheckService {
     criteriaMap.forEach((orGroup: Map<string, ElectiveCriterion[]>, orGroupName: string) => {
       let group: ElectiveCriteriaGroup;
       if (orGroupName && orGroupName !== 'null') {
-        const groupSession = orGroupName.split('___');
-        group = new ElectiveCriteriaGroup(groupSession[0]);
-        group.courseSession = groupSession[1] ? groupSession[1] : null;
+        const [groupName, sessionName] = orGroupName.split('___');
+        group = new ElectiveCriteriaGroup(groupName);
+        group.courseSession = sessionName ? sessionName : null;
 
         orGroup.forEach((andList: ElectiveCriterion[], andGroupName: string) => {
           if (andGroupName && andGroupName !== 'null') {
@@ -223,13 +223,13 @@ export class CriteriaCheckService {
 
   buildCriteriaCounts(criteriaMap: Map<string, number>): TypeCount[] {
     const criteriaList: TypeCount[] = [];
-    for (const c of Array.from(criteriaMap.entries())) {
-      const keyPeriod = c[0].split('||');
+    for (const [type, count] of Array.from(criteriaMap.entries())) {
+      const [key, period] = type.split('||');
       let ps: number[] = [];
-      if (keyPeriod[1]) {
-        ps = keyPeriod[1].split(',').map(p => +p);
+      if (period) {
+        ps = period.split(',').map(p => +p);
       }
-      criteriaList.push(new TypeCount(keyPeriod[0], c[1], ps));
+      criteriaList.push(new TypeCount(key, count, ps));
     }
     criteriaList.sort((a, b) => b.count - a.count);
 
