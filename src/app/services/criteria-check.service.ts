@@ -153,12 +153,13 @@ export class CriteriaCheckService {
       group.isSatisfied = false;
       group.orCriteria.forEach(c => c.isSatisfied = false);
       if (group.andCriteria.size > 0) {
+        // concat.apply allows me to flatten a list of lists into a single list
         [].concat.apply([], Array.from(group.andCriteria.values())).forEach(c => c.isSatisfied = false);
       }
     });
 
     // TODO: this probably fails with the new changes
-    const electives = primaryElectives.slice(0);
+    const electives: Elective[] = primaryElectives.slice(0);
     electives.sort((a, b) => {
       return criteriaMap.get(a.electiveType) - criteriaMap.get(b.electiveType);
     });
@@ -227,35 +228,24 @@ export class CriteriaCheckService {
       }
       criteriaList.push(new TypeCount(keyPeriod[0], c[1], ps));
     }
-    criteriaList.sort((a, b) => {
-      return b.count - a.count;
-    });
+    criteriaList.sort((a, b) => b.count - a.count);
 
     return criteriaList;
   }
 
   getElectiveTypeChosenCounts(primaryElectives: Elective[]): TypeCount[] {
-    const electiveTypeCountMap: Map<string, number> = new Map<string, number>();
+    const electiveTypeCountMap: Map<string, TypeCount> = new Map<string, TypeCount>();
     primaryElectives.forEach(elective => {
-      const key = elective.electiveType + elective.session + '||' + elective.startPeriod;
-      const count = electiveTypeCountMap.get(key) || 0;
-      electiveTypeCountMap.set(key, count + 1);
+      const periods = [elective.startPeriod];
+      const type = elective.electiveType + elective.session;
+      const key = type + '||' + elective.startPeriod;
+      const tc = electiveTypeCountMap.get(key) || new TypeCount(type, 0, []);
+      tc.count += 1;
+      tc.periods.push.apply(tc.periods, periods);
+      electiveTypeCountMap.set(key, tc);
     });
 
-    const typeList: TypeCount[] = [];
-    for (const c of Array.from(electiveTypeCountMap.entries())) {
-      const keyPeriod = c[0].split('||');
-      let ps: number[] = [];
-      if (keyPeriod[1]) {
-        ps = keyPeriod[1].split(',').map(p => +p);
-      }
-      const tc: TypeCount = new TypeCount(keyPeriod[0], c[1], ps);
-      typeList.push(tc);
-    }
-
-    typeList.sort((a, b) => b.count - a.count);
-
-    return typeList;
+    return Array.from(electiveTypeCountMap.values()).sort((a, b) => b.count - a.count);
   }
 
   getCriteriaTypeSatisfiedCounts(electiveTypeCounts: TypeCount[],
