@@ -125,8 +125,9 @@ export class ElectivesComponent implements OnInit, DoCheck {
       if (type.includes('||')) {
         const halves = type.split('||');
         return closed || (halves[1].includes(electivePeriod + '') && halves[0].includes(val));
+      } else {
+        return closed || type.includes(val);
       }
-      return closed;
     }, false);
   }
 

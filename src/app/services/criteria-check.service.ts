@@ -169,9 +169,7 @@ export class CriteriaCheckService {
 
     // TODO: this probably fails with the new changes
     const electives: Elective[] = primaryElectives.slice(0);
-    electives.sort((a, b) => {
-      return criteriaMap.get(a.electiveType) - criteriaMap.get(b.electiveType);
-    });
+    electives.sort((a, b) => criteriaMap.get(a.electiveType + a.session) - criteriaMap.get(b.electiveType + b.session));
 
     electives.forEach(elective => {
       for (let i = 0; i < typeCriteria.length; i++) {
@@ -272,7 +270,9 @@ export class CriteriaCheckService {
           const c: ElectiveCriterion = criteriaCopy[k];
           const typesWithSessions: string[] = c.typeList.map(t => c.courseSession ? t + c.courseSession : t + campSession);
 
-          if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1 && c.orGroupPeriodList.includes(type.periods[0])) {
+          if (c.isSatisfied === false
+            && typesWithSessions.indexOf(type.type) > -1
+            && (c.orGroupPeriodList.length === 0 || c.orGroupPeriodList.includes(type.periods[0]))) {
             c.isSatisfied = true;
             typesWithSessions.forEach(t => {
               const key = t + '||' + c.orGroupPeriodList.join(',');
@@ -299,9 +299,10 @@ export class CriteriaCheckService {
     possibleTypeCounts.forEach(possibleType => {
       satisfiedTypeCounts.forEach(satisfiedType => {
         // check to see if I have any periods in the satisfied type that are also in the possible type
-        const periodFilled: boolean = satisfiedType.periods
-          .filter(stp => possibleType.periods.includes(stp) || possibleType.periods.length === 0)
-          .length > 0;
+        const periodFilled: boolean = satisfiedType.periods.length === 0 ||
+          satisfiedType.periods
+            .filter(stp => possibleType.periods.includes(stp) || possibleType.periods.length === 0)
+            .length > 0;
         if (possibleType.type === satisfiedType.type && possibleType.count === satisfiedType.count && periodFilled) {
           const val = satisfiedType.type + (possibleType.periods.length > 0 ? '||' + possibleType.periods.join(',') : '');
           closedTypeList.push(val);
