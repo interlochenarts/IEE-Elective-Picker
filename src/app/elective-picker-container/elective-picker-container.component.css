@@ -10,6 +10,9 @@
   -ms-user-select: none;
   user-select: none;
 }
+.nav.nav-pills li {
+  margin-right: 1rem;
+}
 .nav.nav-pills li a {
   color: #ad2237;
   border: 2px solid #ad2237;
@@ -29,12 +32,12 @@
 .nav.nav-pills li a:active {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
-.nav.nav-pills li.active a {
+.nav.nav-pills li a.active {
   color: white;
   background-color: #ad2237;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
-.nav.nav-pills li.active a:hover {
+.nav.nav-pills li a.active:hover {
   background-color: #821a29;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12), 0 3px 10px rgba(0, 0, 0, 0.2);
 }
