@@ -5,7 +5,7 @@ import {
 import {Elective} from '../../classes/elective';
 import {ElectiveDataService} from '../../services/elective-data-service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {ModalService} from "../../services/modal.service";
+import {ModalService} from '../../services/modal.service';
 
 declare const Visualforce: any;
 

@@ -1,18 +1,18 @@
 <div class="row">
-  <iee-electives-selected [electives]="electives"></iee-electives-selected>
+  <iee-electives-selected [electives]="electives" class="w-100"></iee-electives-selected>
 </div>
 
 <div class="row">
   <ul class="nav nav-pills">
-    <li [ngClass]="{'active':(electiveOptionsType==='primary')}">
-      <a data-toggle="tab" (click)="onClickTypeOption('primary')">Primary Options</a>
+    <li class="nav-item">
+      <a class="nav-link" [ngClass]="{'active':(electiveOptionsType==='primary')}" data-toggle="tab"
+         (click)="onClickTypeOption('primary')">Primary Options</a>
     </li>
-    <li [ngClass]="{'active':(electiveOptionsType==='alternate')}">
-      <a data-toggle="tab" (click)="onClickTypeOption('alternate')">Alternate Options</a>
+    <li class="nav-item">
+      <a class="nav-link" [ngClass]="{'active':(electiveOptionsType==='alternate')}" data-toggle="tab"
+         (click)="onClickTypeOption('alternate')">Alternate Options</a>
     </li>
   </ul>
 </div>
 
-<div class="row">
-  <iee-electives [electivesType]="electiveOptionsType" [electives]="electives"></iee-electives>
-</div>
+<iee-electives class="w-100" [electivesType]="electiveOptionsType" [electives]="electives"></iee-electives>
