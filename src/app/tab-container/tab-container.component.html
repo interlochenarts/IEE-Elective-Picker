@@ -1,21 +1,24 @@
 <ul class="nav nav-tabs">
-  <li *ngFor="let pmId of programMajorIds; let i = index"
-      [ngClass]="{'active': (education.sessionsByProgramMajorIds[pmId] === activeTabSession)}"
+  <li class="nav-item" *ngFor="let pmId of programMajorIds; let i = index"
       (click)="onChangeTab(i)">
-    <a data-toggle="tab">{{education.sessionsByProgramMajorIds[pmId]}}</a>
+    <a data-toggle="tab"
+       class="nav-link"
+       [ngClass]="{'active': (education.sessionsByProgramMajorIds[pmId] === activeTabSession)}">{{education.sessionsByProgramMajorIds[pmId]}}</a>
   </li>
-  <li [ngClass]="{'active': reviewAndSubmitActive}">
-    <a data-toggle="tab" (click)="onReviewAndSubmitClicked()">Review &amp; Submit</a>
+  <li class="nav-item">
+    <a data-toggle="tab" class="nav-link"
+       [ngClass]="{'active': reviewAndSubmitActive}"
+       (click)="onReviewAndSubmitClicked()">Review &amp; Submit</a>
   </li>
 </ul>
 <div class="well" *ngIf="activeProgramMajorId">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
       <h3>{{education.programNamesByProgramMajorIds[activeProgramMajorId]}}</h3>
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
       <div *ngIf="education.electivesByProgramMajorIds[activeProgramMajorId]
               && (education.electivesByProgramMajorIds[activeProgramMajorId].length > 0)">
         <iee-elective-criteria-container
@@ -35,12 +38,12 @@
 <div class="well" *ngIf="reviewAndSubmitActive === true">
   <iee-review-container></iee-review-container>
 </div>
-<div class="col-xs-12 margin-bottom-sm">
-  <div class="col-xs-6">
+<div class="row margin-bottom-sm">
+  <div class="col-6">
     <a class="change-tab-link" (click)="prevTab()" *ngIf="(tabIndex > 0)"><i class="fa fa-long-arrow-left"></i>
       Previous</a>
   </div>
-  <div class="col-xs-6 text-right">
+  <div class="col-6 text-right">
     <a class="change-tab-link" (click)="nextTab()" *ngIf="(tabIndex < programMajorIds.length)">{{nextTabName}} <i
       class="fa fa-long-arrow-right"></i></a>
   </div>

@@ -50,13 +50,12 @@ export class ElectivesComponent implements OnInit, DoCheck {
     if (this.electives) {
       this.electives.forEach((elective: Elective) => {
         if ((this.isPrimary && elective.isPrimary) || (this.isAlternate && elective.isAlternate)) {
-          if (periods.indexOf(elective.startPeriod + '-' + elective.session) < 0) {
-            periods.push(elective.startPeriod + '-' + elective.session);
-          }
-          // INFO: works as long as our classes are not more than 2 hours long
-          if (periods.indexOf(elective.endPeriod + '-' + elective.session) < 0) {
-            periods.push(elective.endPeriod + '-' + elective.session);
-          }
+          Array.from({length: elective.endPeriod - elective.startPeriod + 1}).forEach((n, index) => {
+            const period = elective.startPeriod + index;
+            if (periods.indexOf(period + '-' + elective.session) < 0) {
+              periods.push(period + '-' + elective.session);
+            }
+          });
         }
       });
     }
@@ -64,11 +63,11 @@ export class ElectivesComponent implements OnInit, DoCheck {
     return periods;
   }
 
-  get isPrimary() {
+  get isPrimary(): boolean {
     return this.electivesType.toLowerCase() === 'primary';
   }
 
-  get isAlternate() {
+  get isAlternate(): boolean {
     return this.electivesType.toLowerCase() === 'alternate';
   }
 
@@ -96,29 +95,19 @@ export class ElectivesComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.electiveDataService.typeFilterList.asObservable().subscribe({
-      next: filters => {
-        this.typeFilters = filters;
-      }
+      next: filters => this.typeFilters = filters
     });
     this.electiveDataService.closedTypes.asObservable().subscribe({
-      next: closed => {
-        this.closedTypes = closed;
-      }
+      next: closed => this.closedTypes = closed
     });
     this.electiveDataService.availableCriteria.asObservable().subscribe({
-      next: available => {
-        this.availableCriteriaCount = available;
-      }
+      next: available => this.availableCriteriaCount = available
     });
     this.electiveDataService.closedPeriods.asObservable().subscribe({
-      next: closed => {
-        this.closedPeriods = closed;
-      }
+      next: closed => this.closedPeriods = closed
     });
     this.electiveDataService.availableCriteriaBySession.asObservable().subscribe({
-      next: availableMap => {
-        this.availableCriteriaBySession = availableMap;
-      }
+      next: availableMap => this.availableCriteriaBySession = availableMap
     });
   }
 
@@ -130,8 +119,16 @@ export class ElectivesComponent implements OnInit, DoCheck {
     return this.selectedPeriods.indexOf(key) > -1;
   }
 
-  private typeClosed(electiveType: string, electiveSession: string): boolean {
-    return this.closedTypes.indexOf(electiveType + electiveSession) > -1;
+  private typeClosed(electiveType: string, electiveSession: string, electivePeriod: number): boolean {
+    const val = electiveType + electiveSession;
+    return this.closedTypes.reduce((closed, type) => {
+      if (type.includes('||')) {
+        const [key, period] = type.split('||');
+        return closed || (period.includes(electivePeriod + '') && key.includes(val));
+      } else {
+        return closed || type.includes(val);
+      }
+    }, false);
   }
 
   private electiveCriteriaFilled(): boolean {
@@ -186,7 +183,7 @@ export class ElectivesComponent implements OnInit, DoCheck {
       this.periodFilled(elective.endPeriod, this.isPrimary, elective.session) ||
       this.isCourseSelectedAtDifferentTime(elective) ||
       (this.isPrimary && (
-          (this.typeClosed(elective.electiveType, elective.session) ||
+          (this.typeClosed(elective.electiveType, elective.session, elective.startPeriod) ||
             this.electiveCriteriaForSessionFilled(elective.session) ||
             this.electiveCriteriaFilled())
         )

@@ -1,11 +1,11 @@
 <div class="modal-backdrop" #modalBackdrop (click)="closeModal()"></div>
-<div class="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3 modal-box" #modalBox>
-  <div class="col-xs-10">
+<div class="col-10 col-offset-1 col-md-6 col-md-offset-3 modal-box" #modalBox>
+  <div class="col-10">
     <h3>{{modalTitle}}</h3>
   </div>
-  <div class="col-xs-2">
+  <div class="col-2">
     <div class="text-right"><a href="javascript:void(0);" (click)="closeModal()" id="modal-close"><i class="fa fa-times fa-2x"></i></a>
     </div>
   </div>
-  <div class="col-xs-12" [innerHtml]="detailText"></div>
+  <div class="col-12" [innerHtml]="detailText"></div>
 </div>

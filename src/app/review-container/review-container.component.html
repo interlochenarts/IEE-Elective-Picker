@@ -1,5 +1,5 @@
 <div class="row" *ngFor="let pmId of education.programMajorIds">
-  <div class="col-xs-12">
+  <div class="col-12">
     <div class="session">
       <h3>{{education.programNamesByProgramMajorIds[pmId]}}</h3>
       <h5>{{education.sessionsByProgramMajorIds[pmId]}}</h5>
@@ -38,13 +38,13 @@
             <div class="row elective-choice margin-top-sm"
                  *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId); let i = index"
                  [ngClass]="{'first': i === 0}">
-              <div class="col-xs-12 col-sm-6 col-md-7">
+              <div class="col-12 col-sm-6 col-md-7">
                 <div class="course-name">{{elective.courseDescription}}</div>
               </div>
-              <div class="col-xs-12 col-sm-4 col-md-3 text-right">
+              <div class="col-12 col-sm-4 col-md-3 text-right">
                 <div class="elective-session">{{elective.session}}</div>
               </div>
-              <div class="col-xs-12 col-sm-2 col-md-2 text-right">
+              <div class="col-12 col-sm-2 col-md-2 text-right">
                 <div class="elective-time">{{elective.time}}</div>
               </div>
             </div>
@@ -59,13 +59,13 @@
             <div class="row elective-choice"
                  *ngFor="let elective of alternateElectivesByProgramMajorIds.get(pmId); let i = index"
                  [ngClass]="{'first': i === 0}">
-              <div class="col-xs-12 col-sm-6 col-md-7">
+              <div class="col-12 col-sm-6 col-md-7">
                 <div class="course-name">{{elective.courseDescription}}</div>
               </div>
-              <div class="col-xs-12 col-sm-4 col-md-3 text-right">
+              <div class="col-12 col-sm-4 col-md-3 text-right">
                 <div class="elective-session">{{elective.session}}</div>
               </div>
-              <div class="col-xs-12 col-sm-2 col-md-2 text-right">
+              <div class="col-12 col-sm-2 col-md-2 text-right">
                 <div class="elective-time">{{elective.time}}</div>
               </div>
             </div>
@@ -84,7 +84,7 @@
   </div>
 </div>
 <div class="row" *ngIf="canClickCheckbox() === false">
-  <div class="col-xs-12">
+  <div class="col-12">
     <div class="alert alert-danger">
       <i class="fa fa-exclamation-triangle" style="color:red;"></i>
       You cannot submit your electives until you have satisfied all of the requirements for each session.
@@ -94,26 +94,26 @@
 <div class="row check-description"
      [ngClass]="{disabled: canClickCheckbox() === false, clickable: canClickCheckbox()}"
      (click)="onClickCheckbox()">
-  <div class="col-xs-2 text-right">
+  <div class="col-2 text-right">
     <div class="checkbox">
       <input type="checkbox" [checked]="readyToSubmit"/>
       <label [ngClass]="{disabled: canClickCheckbox() === false}"><i class="fa fa-check"></i></label>
     </div>
   </div>
-  <div class="col-xs-10">
+  <div class="col-10">
     <div class="no-select nudge-down">
       I'm ready to submit my electives.
     </div>
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12 info-text margin-top-sm">
+  <div class="col-12 info-text margin-top-sm">
     Once you have submitted your elective selections you won't be able to change this information.
     While we do our best to honor elective selections, we are not able to guarantee placement in any course.
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12 text-right margin-top-sm">
+  <div class="col-12 text-right margin-top-sm">
     <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting === true"></i>
     <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!readyToSubmit || submitting">
       Submit

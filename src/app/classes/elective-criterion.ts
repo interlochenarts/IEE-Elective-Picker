@@ -14,6 +14,7 @@ export class ElectiveCriterion {
   typeList: string[];
   orGroup: string;
   andGroup: string;
+  orGroupPeriods: string;
 
   // TODO: should be global somehow
   private timePeriodMap = {
@@ -67,6 +68,15 @@ export class ElectiveCriterion {
     }
 
     return description + (this.isRequired ? '' : ' (Optional)');
+  }
+
+  // split into string array and convert to numbers
+  get orGroupPeriodList(): number[] {
+    if (this.orGroupPeriods) {
+      return this.orGroupPeriods.split(';').map(n => +n);
+    }
+
+    return [];
   }
 
   get group1description(): string {
