@@ -19,18 +19,19 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <div *ngIf="education.electivesByProgramMajorIds[activeProgramMajorId]
-              && (education.electivesByProgramMajorIds[activeProgramMajorId].length > 0)">
+      <div *ngIf="!electivesUnavailable && electiveSlotsAvailable">
         <iee-elective-criteria-container
           [activeProgramMajorId]="activeProgramMajorId"></iee-elective-criteria-container>
         <iee-elective-picker-container
           [electives]="electives"
           [tabIndex]="tabIndex"></iee-elective-picker-container>
       </div>
-      <div *ngIf="(!education.electivesByProgramMajorIds[activeProgramMajorId])
-              || (education.electivesByProgramMajorIds[activeProgramMajorId].length === 0)" class="alert alert-info">
-        <i class="fa fa-info-circle"></i> There are no electives available for this session or all electives are full.
-        Please continue to the next tab.
+      <div *ngIf="electivesUnavailable" class="alert alert-info">
+        <i class="fa fa-info-circle"></i> There are no electives available for this session. Please continue to the next
+        tab.
+      </div>
+      <div *ngIf="electiveSlotsAvailable === false" class="alert alert-info">
+        <i class="fa fa-info-circle"></i> All electives are full for this session. Please continue to the next tab.
       </div>
     </div>
   </div>
