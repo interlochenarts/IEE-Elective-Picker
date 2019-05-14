@@ -90,13 +90,30 @@ export class ReviewContainerComponent implements OnInit {
   onClickCheckbox() {
     if (this.canClickCheckbox()) {
       this.readyToSubmit = this.readyToSubmit !== true;
+    }
   }
+
+
+  electivesUnavailable(pmId: string): boolean {
+    return (!this.education.electivesByProgramMajorIds[pmId])
+      || (this.education.electivesByProgramMajorIds[pmId].length === 0);
+  }
+
+  electiveSlotsAvailable(pmId: string): boolean {
+    const electives = this.education.electivesByProgramMajorIds[pmId];
+    if (electives) {
+      return electives.reduce((open: boolean, elective) => {
+        return open || elective.availableSlots > 0;
+      }, false);
+    }
+
+    return false;
   }
 
   hasAlternatesButNoPrimariesForProgram(pmId: string): boolean {
     return this.primaryElectivesByProgramMajorIds.get(pmId).length === 0
       && this.alternateElectivesByProgramMajorIds.get(pmId).length > 0;
-  };
+  }
 
   canClickCheckbox(): boolean {
     // iterate over map and check if any value is greater than zero.
