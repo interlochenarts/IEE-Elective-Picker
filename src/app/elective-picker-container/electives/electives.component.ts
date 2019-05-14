@@ -45,6 +45,18 @@ export class ElectivesComponent implements OnInit, DoCheck {
     return [];
   }
 
+  get electivesFull(): boolean {
+    if (this.electives) {
+      return this.electives.reduce((full: boolean, elective) => {
+        return full || elective.availableSlots <= 0;
+      }, false);
+    }
+  }
+
+  get electivesUnavailable(): boolean {
+    return (!this.electives || this.electives.length === 0);
+  }
+
   get selectedPeriods(): string[] {
     const periods: string[] = [];
     if (this.electives) {

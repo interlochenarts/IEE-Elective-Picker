@@ -10,7 +10,12 @@
               [coRequisite]="getCoRequisite(elective)"
               @shrinkOut></iee-elective>
 
-<div *ngIf="displayedElectives.length === 0" class="alert alert-warning">
-  <i class="fa fa-info-circle"></i> There are no electives available for this session or all electives are full.
-  Please continue to the next tab.
+<div *ngIf="electivesFull" class="alert alert-warning">
+  <i class="fa fa-info-circle"></i> All electives are currently full for this session. Please continue to the next tab.
 </div>
+
+<div *ngIf="electivesUnavailable" class="alert alert-warning">
+  <i class="fa fa-info-circle"></i> There are no electives available for this session. Please continue to the next tab.
+</div>
+
+
