@@ -79,7 +79,7 @@ export class TabContainerComponent implements OnInit {
       }, false);
     }
 
-    return false;
+    return true;
   }
 
   prevTab() {
