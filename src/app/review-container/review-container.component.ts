@@ -107,7 +107,7 @@ export class ReviewContainerComponent implements OnInit {
       }, false);
     }
 
-    return false;
+    return true;
   }
 
   hasAlternatesButNoPrimariesForProgram(pmId: string): boolean {
