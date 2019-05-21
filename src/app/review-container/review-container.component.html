@@ -92,7 +92,7 @@
 <div class="row check-description"
      [ngClass]="{disabled: canClickCheckbox() === false, clickable: canClickCheckbox()}"
      (click)="onClickCheckbox()">
-  <div class="col-2 text-right">
+  <div class="col-2 text-center">
     <div class="checkbox">
       <input type="checkbox" [checked]="readyToSubmit"/>
       <label [ngClass]="{disabled: canClickCheckbox() === false}"><i class="fa fa-check"></i></label>

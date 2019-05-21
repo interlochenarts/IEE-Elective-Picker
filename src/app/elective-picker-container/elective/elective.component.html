@@ -6,7 +6,7 @@
     <div class="row elective-choice" [ngClass]="{'disabled': (isDisabled && !isChecked) || isSpinning}"
          (click)="onCheckChange((isDisabled && !isChecked) || isSpinning)"
          [@shrinkGrow]="'in'">
-      <div class="col-2 col-sm-2 text-center">
+      <div class="col-2 text-center">
         <!--<i class="fa fa-2x"-->
         <!--[ngClass]="{'fa-check-square-o': isChecked, 'fa-square-o': !isChecked, 'disabled': isDisabled && !isChecked}"></i>-->
         <div class="checkbox" *ngIf="!isSpinning">

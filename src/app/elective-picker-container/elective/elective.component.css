@@ -87,10 +87,6 @@
   animation-duration: 0.5s;
   overflow: hidden;
 }
-.checkbox label i {
-  position: relative;
-  left: -20px;
-}
 .checkbox label.disabled {
   cursor: not-allowed;
 }
