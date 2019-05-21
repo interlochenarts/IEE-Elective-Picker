@@ -74,9 +74,16 @@ export class TabContainerComponent implements OnInit {
   get electiveSlotsAvailable(): boolean {
     const electives = this.education.electivesByProgramMajorIds[this.activeProgramMajorId];
     if (electives) {
-      return electives.reduce((open: boolean, elective) => {
-        return open || elective.availableSlots > 0;
-      }, false);
+      return electives.reduce((open: boolean, elective) => open || elective.availableSlots > 0, false);
+    }
+
+    return true;
+  }
+
+  get electiveChoicesStarted(): boolean {
+    const electives = this.education.electivesByProgramMajorIds[this.activeProgramMajorId];
+    if (electives) {
+      return electives.reduce((selected: boolean, elective) => selected || elective.isPrimary || elective.isAlternate, false);
     }
 
     return true;

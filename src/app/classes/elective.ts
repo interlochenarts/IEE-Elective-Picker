@@ -91,6 +91,7 @@ export class Elective {
 
   public deleteFromSalesforce(): Promise<any> {
     this.isDeleting = true;
+    this.enrolledCount -= 1;
     return new Promise((resolve, reject) => {
       Visualforce.remoting.Manager.invokeAction(
         'IEE_ElectivePicker_Controller.deleteElectiveChoiceCamp',
