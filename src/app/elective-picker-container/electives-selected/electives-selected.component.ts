@@ -17,16 +17,6 @@ import {animate, animateChild, query, state, style, transition, trigger} from '@
 export class ElectivesSelectedComponent implements OnInit {
   @Input() electives: Elective[];
 
-  get electivesPicked(): boolean {
-    if (this.electives) {
-      return this.electives.reduce((result, elective) => {
-        return result || (elective.isPrimary || elective.isAlternate);
-      }, false);
-    }
-
-    return false;
-  }
-
   get primaries(): Elective[] {
     return this.electives.filter((elective) => {
       return elective.isPrimary;
