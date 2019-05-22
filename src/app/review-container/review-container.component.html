@@ -51,9 +51,12 @@
           </div>
 
           <h4 class="text-center alt-header">Alternate Selections</h4>
-          <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
+          <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0 && electiveSlotsAvailable(pmId)">
             <i class="fa fa-exclamation-triangle" style="color:red"></i> While an alternate choice is not
             required, you are encouraged to choose one or more.
+          </div>
+          <div class="alert alert-info" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0 && electiveSlotsAvailable(pmId) === false">
+            <i class="fa fa-info-circle"></i> All electives for this session are full.
           </div>
           <div *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length > 0">
             <div class="row elective-choice"
