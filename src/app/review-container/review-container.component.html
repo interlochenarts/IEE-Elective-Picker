@@ -4,7 +4,7 @@
       <h3>{{education.programNamesByProgramMajorIds[pmId]}}</h3>
       <h5>{{education.sessionsByProgramMajorIds[pmId]}}</h5>
 
-      <div *ngIf="electivesUnavailable(pmId) === false && electiveSlotsAvailable(pmId)">
+      <div *ngIf="electivesUnavailable(pmId) === false && (electiveSlotsAvailable(pmId) || (electiveSlotsAvailable(pmId) === false && electiveChoicesStarted(pmId)))">
         <div
           *ngIf="education.electivesByProgramMajorIds[pmId] && education.electivesByProgramMajorIds[pmId].length > 0">
           <h4 class="text-center pri-header">Primary Selections</h4>
@@ -72,7 +72,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="electiveSlotsAvailable(pmId) === false" class="alert alert-info">
+      <div *ngIf="electiveSlotsAvailable(pmId) === false && electiveChoicesStarted(pmId) === false" class="alert alert-info">
         <i class="fa fa-info-circle"></i> All electives for this session are full.
       </div>
       <div *ngIf="electivesUnavailable(pmId)" class="alert alert-info">
