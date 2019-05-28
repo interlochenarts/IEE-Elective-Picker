@@ -30,7 +30,7 @@ export class ElectivePickerContainerComponent implements OnInit, DoCheck {
       next: filters => {
         this.typeFilters = filters;
       }
-    })
+    });
   }
 
   onClickTypeOption(type: string) {

@@ -1,4 +1,5 @@
 <iee-elective *ngFor="let elective of displayedElectives;let i = index"
+              class="w-100"
               [elective]="elective"
               [electives]="displayedElectives"
               [index]="i"
@@ -8,8 +9,3 @@
               [displayTimeHeaders]="true"
               [coRequisite]="getCoRequisite(elective)"
               @shrinkOut></iee-elective>
-
-<div *ngIf="displayedElectives.length === 0" class="alert alert-warning">
-  <i class="fa fa-info-circle"></i> There are no electives available for this session or all electives are full.
-  Please continue to the next tab.
-</div>

@@ -70,10 +70,6 @@
   cursor: not-allowed;
   color: #aaa;
 }
-.checkbox label i {
-  position: relative;
-  left: -20px;
-}
 .checkbox label.disabled {
   cursor: not-allowed;
 }

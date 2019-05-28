@@ -5,7 +5,7 @@ import {
 import {Elective} from '../../classes/elective';
 import {ElectiveDataService} from '../../services/elective-data-service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {ModalService} from "../../services/modal.service";
+import {ModalService} from '../../services/modal.service';
 
 declare const Visualforce: any;
 
@@ -113,16 +113,14 @@ export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChan
       }
 
       if (this.checking) {
-        this.elective.insertIntoSalesforce(this.educationId).then(result => {
-        });
+        this.elective.insertIntoSalesforce(this.educationId).then(result => {});
 
         // if co-req exists, insert it also
         if (this.coRequisite) {
           this.coRequisite.insertIntoSalesforce(this.educationId).then(coReqResult => {});
         }
       } else {
-        this.elective.deleteFromSalesforce().then(result => {
-        });
+        this.elective.deleteFromSalesforce().then(result => {});
 
         // if co-req exists, delete it also
         if (this.coRequisite) {

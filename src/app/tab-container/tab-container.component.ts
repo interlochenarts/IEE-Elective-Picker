@@ -66,6 +66,29 @@ export class TabContainerComponent implements OnInit {
     return index;
   }
 
+  get electivesUnavailable(): boolean {
+    return (!this.education.electivesByProgramMajorIds[this.activeProgramMajorId])
+      || (this.education.electivesByProgramMajorIds[this.activeProgramMajorId].length === 0);
+  }
+
+  get electiveSlotsAvailable(): boolean {
+    const electives = this.education.electivesByProgramMajorIds[this.activeProgramMajorId];
+    if (electives) {
+      return electives.reduce((open: boolean, elective) => open || elective.availableSlots > 0, false);
+    }
+
+    return true;
+  }
+
+  get electiveChoicesStarted(): boolean {
+    const electives = this.education.electivesByProgramMajorIds[this.activeProgramMajorId];
+    if (electives) {
+      return electives.reduce((selected: boolean, elective) => selected || elective.isPrimary || elective.isAlternate, false);
+    }
+
+    return true;
+  }
+
   prevTab() {
     this.onChangeTab(this.tabIndex - 1);
     this.reviewAndSubmitActive = false;

@@ -32,20 +32,22 @@ export class ReviewContainerComponent implements OnInit {
     const electiveObs = this.electiveDataService.electiveCriteria.asObservable();
     const educationObs = this.electiveDataService.education.asObservable();
 
-    Observable.combineLatest(electiveObs, educationObs).subscribe((o) => {
+    Observable.combineLatest(electiveObs, educationObs).subscribe(o => {
       [this.electiveCriteria, this.education] = o;
 
       this.education.programMajorIds.forEach(pmId => {
         if (this.education.electivesByProgramMajorIds[pmId]) {
-          this.primaryElectivesByProgramMajorIds.set(pmId, this.education.electivesByProgramMajorIds[pmId].filter(e => {
-            return e.isPrimary;
-          }));
-          this.alternateElectivesByProgramMajorIds.set(pmId, this.education.electivesByProgramMajorIds[pmId].filter(e => {
-            return e.isAlternate;
-          }));
-          this.availableElectivesByProgramMajorIds.set(pmId, this.education.electivesByProgramMajorIds[pmId].filter(e => {
-            return e.isPrimary || e.isAlternate || e.availableSlots > 0;
-          }));
+          this.primaryElectivesByProgramMajorIds
+            .set(pmId, this.education.electivesByProgramMajorIds[pmId]
+            .filter(e => e.isPrimary));
+
+          this.alternateElectivesByProgramMajorIds
+            .set(pmId, this.education.electivesByProgramMajorIds[pmId]
+            .filter(e => e.isAlternate));
+
+          this.availableElectivesByProgramMajorIds
+            .set(pmId, this.education.electivesByProgramMajorIds[pmId]
+            .filter(e => e.isPrimary || e.isAlternate || e.availableSlots > 0));
         } else {
           this.primaryElectivesByProgramMajorIds.set(pmId, []);
           this.alternateElectivesByProgramMajorIds.set(pmId, []);
@@ -59,15 +61,11 @@ export class ReviewContainerComponent implements OnInit {
           this.criteriaCheckService.checkCriteriaCheckMarks(typeCriteria, primaryElectives, criteriaMap);
 
           this.availableRequiredCriteriaByProgramMajorIds.set(pmId,
-            this.criteriaCheckService.countAvailableCriteria(typeCriteria.filter(criteria => {
-              return criteria.isRequired;
-            }), false)
+            this.criteriaCheckService.countAvailableCriteria(typeCriteria.filter(c => c.isRequired), false)
           );
 
           this.availableOptionalCriteriaByProgramMajorIds.set(pmId,
-            this.criteriaCheckService.countAvailableCriteria(typeCriteria.filter(criteria => {
-              return !criteria.isRequired;
-            }), false)
+            this.criteriaCheckService.countAvailableCriteria(typeCriteria.filter(c => !c.isRequired), false)
           );
         }
       });
@@ -90,13 +88,36 @@ export class ReviewContainerComponent implements OnInit {
   onClickCheckbox() {
     if (this.canClickCheckbox()) {
       this.readyToSubmit = this.readyToSubmit !== true;
+    }
   }
+
+  electivesUnavailable(pmId: string): boolean {
+    return (!this.education.electivesByProgramMajorIds[pmId])
+      || (this.education.electivesByProgramMajorIds[pmId].length === 0);
+  }
+
+  electiveSlotsAvailable(pmId: string): boolean {
+    const electives = this.education.electivesByProgramMajorIds[pmId];
+    if (electives) {
+      return electives.reduce((open: boolean, elective) => open || elective.availableSlots > 0, false);
+    }
+
+    return true;
+  }
+
+  electiveChoicesStarted(pmId: string): boolean {
+    const electives = this.education.electivesByProgramMajorIds[pmId];
+    if (electives) {
+      return electives.reduce((selected: boolean, elective) => selected || elective.isPrimary || elective.isAlternate, false);
+    }
+
+    return true;
   }
 
   hasAlternatesButNoPrimariesForProgram(pmId: string): boolean {
     return this.primaryElectivesByProgramMajorIds.get(pmId).length === 0
       && this.alternateElectivesByProgramMajorIds.get(pmId).length > 0;
-  };
+  }
 
   canClickCheckbox(): boolean {
     // iterate over map and check if any value is greater than zero.

@@ -1,20 +1,22 @@
 <div class="modal-container" #modalContainer></div>
-<div class="col-xs-12 col-md-4 col-md-push-8">
-  <div *ngIf="longDescription && longDescription.length > 0" class="well instructions">
-    <div [innerHTML]="longDescription"></div>
+<div class="row margin-top-sm">
+  <div class="col-12 col-md-4 order-md-last">
+    <div *ngIf="longDescription && longDescription.length > 0" class="well instructions">
+      <div [innerHTML]="longDescription"></div>
+    </div>
+    <div class="well lesson-instructions d-none d-md-block" *ngIf="showPrivateLessonInstructions"
+         [innerHtml]="privateLessonInstructions">
+    </div>
+    <a (click)="toTop()" class="btn btn-default float-link" #floatLink href="javascript:void(0);">
+      <i class="fa fa-arrow-up"></i> Back to Top
+    </a>
   </div>
-  <div class="well lesson-instructions visible-md visible-lg" *ngIf="showPrivateLessonInstructions"
-       [innerHtml]="privateLessonInstructions">
+  <div class="col-12 col-md-8 order-md-first">
+    <iee-tab-container></iee-tab-container>
   </div>
-  <a (click)="toTop()" class="btn btn-default float-link" #floatLink>
-    <i class="fa fa-arrow-up"></i> Back to Top
-  </a>
-</div>
-<div class="col-xs-12 col-md-8 col-md-pull-4">
-  <iee-tab-container></iee-tab-container>
-</div>
-<div class="col-xs-12 visible-xs visible-sm margin-bottom" *ngIf="showPrivateLessonInstructions">
-  <div class="well lesson-instructions"
-       [innerHtml]="privateLessonInstructions">
+  <div class="col-12 d-block d-md-none margin-bottom" *ngIf="showPrivateLessonInstructions">
+    <div class="well lesson-instructions"
+         [innerHtml]="privateLessonInstructions">
+    </div>
   </div>
 </div>
