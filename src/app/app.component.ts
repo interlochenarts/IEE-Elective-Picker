@@ -1,11 +1,12 @@
+
+import {combineLatest as observableCombineLatest, Observable} from 'rxjs';
 import {
   Component, ComponentFactoryResolver, ComponentRef, OnInit, Renderer2, ViewChild,
   ViewContainerRef
 } from '@angular/core';
 import {ElectiveDataService} from './services/elective-data-service';
 import {Education} from './classes/education';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/combineLatest';
+
 import {ModalContainerComponent} from './modal-container/modal-container.component';
 import {ModalService} from './services/modal.service';
 
@@ -52,7 +53,7 @@ export class AppComponent implements OnInit {
     const edObs = this.electiveDataService.education.asObservable();
     const pmIdObs = this.electiveDataService.activeProgramMajorId.asObservable();
 
-    Observable.combineLatest(edObs, pmIdObs).subscribe(obs => {
+    observableCombineLatest(edObs, pmIdObs).subscribe(obs => {
       [this.education, this.activeProgramMajorId] = obs;
       this.updateDescriptionText();
     });

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import {BehaviorSubject} from 'rxjs';
+
+
 import {Education} from '../classes/education';
 import {ElectiveCriterion} from '../classes/elective-criterion';
 import * as cometd from 'cometd/cometd';
