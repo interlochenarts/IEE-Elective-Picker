@@ -1,11 +1,12 @@
+
+import {combineLatest as observableCombineLatest, Observable} from 'rxjs';
 import {Component, OnInit} from '@angular/core';
 import {ElectiveDataService} from '../services/elective-data-service';
 import {Education} from '../classes/education';
 import {Elective} from '../classes/elective';
 import {CriteriaCheckService} from '../services/criteria-check.service';
 import {ElectiveCriterion} from '../classes/elective-criterion';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/combineLatest';
+
 
 declare const Visualforce: any;
 
@@ -32,7 +33,7 @@ export class ReviewContainerComponent implements OnInit {
     const electiveObs = this.electiveDataService.electiveCriteria.asObservable();
     const educationObs = this.electiveDataService.education.asObservable();
 
-    Observable.combineLatest(electiveObs, educationObs).subscribe(o => {
+    observableCombineLatest(electiveObs, educationObs).subscribe(o => {
       [this.electiveCriteria, this.education] = o;
 
       this.education.programMajorIds.forEach(pmId => {
