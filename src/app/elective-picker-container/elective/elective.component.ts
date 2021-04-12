@@ -44,7 +44,7 @@ export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChan
   @Input() isDisplayed: boolean;
   educationId: string;
   endAnimation: Function;
-  @ViewChild('availableSlotsElement') availableSlotsElement;
+  @ViewChild('availableSlotsElement', { static: false }) availableSlotsElement;
   private _previousAvailableSlots: number;
 
   get isChecked(): boolean {

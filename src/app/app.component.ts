@@ -19,8 +19,8 @@ import {ModalService} from './services/modal.service';
   ]
 })
 export class AppComponent implements OnInit {
-  @ViewChild('floatLink') floatLink: any;
-  @ViewChild('modalContainer', {read: ViewContainerRef}) modalContainer: ViewContainerRef;
+  @ViewChild('floatLink', { static: true }) floatLink: any;
+  @ViewChild('modalContainer', { read: ViewContainerRef, static: true }) modalContainer: ViewContainerRef;
   education: Education;
   activeProgramMajorId: string;
   longDescription = '';
