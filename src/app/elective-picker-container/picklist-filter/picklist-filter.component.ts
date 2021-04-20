@@ -10,7 +10,7 @@ declare const Visualforce: any;
   styleUrls: ['./picklist-filter.component.css']
 })
 export class PicklistFilterComponent implements OnInit {
-  @ViewChild('dropdownModal') dropdownModal: any;
+  @ViewChild('dropdownModal', { static: true }) dropdownModal: any;
   @Input() availableTypes: string[];
   dropDownIsVisible = false;
   filterList: FilterListItem[] = [];

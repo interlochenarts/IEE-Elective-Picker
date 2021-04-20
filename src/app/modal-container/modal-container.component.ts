@@ -9,8 +9,8 @@ import {ModalService} from '../services/modal.service';
 export class ModalContainerComponent implements OnInit, OnDestroy {
   detailText: string;
   modalTitle: string;
-  @ViewChild('modalBackdrop') modalBackdrop: any;
-  @ViewChild('modalBox') modalBox: any;
+  @ViewChild('modalBackdrop', { static: true }) modalBackdrop: any;
+  @ViewChild('modalBox', { static: true }) modalBox: any;
 
   constructor(private modalService: ModalService) {
   }
