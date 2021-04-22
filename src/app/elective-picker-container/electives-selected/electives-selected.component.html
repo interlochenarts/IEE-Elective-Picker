@@ -10,11 +10,11 @@
                   [isDisabled]="true"
                   @shrink></iee-elective>
   </div>
-  <div class="col-12 alert alert-info" *ngIf="primaries.length === 0">
+  <div class="col-12 mb-4" *ngIf="primaries.length === 0">
     <i class="fa fa-info-circle" aria-hidden="true"></i> No primary electives selected
   </div>
 </div>
-<div class="selectedList" id="alternateSelections">
+<div class="selectedList mt-4" id="alternateSelections">
   <div class="col-12">
     <h4 class="text-center heading">Alternate Selections</h4>
     <!-- disabled below is counter intuitive and a hack. If the checkbox is showing, the row won't be disabled -->
@@ -26,7 +26,7 @@
                   [isDisabled]="true"
                   @shrink></iee-elective>
   </div>
-  <div class="col-12 alert alert-info" *ngIf="alternates.length === 0">
+  <div class="col-12 mb-4" *ngIf="alternates.length === 0">
     <i class="fa fa-info-circle"></i> No alternate electives selected
   </div>
 </div>

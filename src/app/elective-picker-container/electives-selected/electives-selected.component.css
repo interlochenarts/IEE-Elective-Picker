@@ -1,6 +1,10 @@
 .selectedList {
-  margin-top: 0.75em;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #003057;
 }
 .heading {
-  font-size: 1.3em;
+  font-size: 1.3rem;
 }
+/*# sourceMappingURL=electives-selected.component.css.map */
