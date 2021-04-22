@@ -19,12 +19,12 @@
           <i class="fa fa-spinner fa-fw fa-pulse fa-2x"></i>
         </div>
       </div>
-      <div class="col-10 col-sm-5">
+      <div class="col-10 col-sm-6">
         <div class="course-name">{{elective.courseDescription}}</div>
         <div class="elective-session">{{elective.session}}</div>
         <div class="elective-type">{{elective.electiveType}}</div>
       </div>
-      <div class="col-12 col-sm-5 text-right">
+      <div class="col-12 col-sm-4 text-right">
         <div>{{elective.time}}</div>
         <div *ngIf="isPrimary">Spaces available:
           <i *ngIf="elective.isUpdating === true" class="fa fa-spinner fa-pulse fa-fw"></i>
