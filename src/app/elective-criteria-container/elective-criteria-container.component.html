@@ -1,13 +1,11 @@
 <div class="elective-criteria alert"
      *ngIf="(typeCriteria.length > 0) && (electives.length > 0)">
   <div class="row margin-bottom-sm" *ngFor="let criterion of typeCriteria; let i = index">
-    <div class="col-2 col-md-1 text-right elective-icon-container">
-      <i *ngIf="!criterion.isSatisfied"
-         class="fa fa-exclamation-triangle criterion-icon incomplete"></i>
-      <i *ngIf="criterion.isSatisfied === true"
-         class="fa fa-check-circle criterion-icon complete"></i>
-    </div>
-    <div class="col-10 col-md-11 elective-description" [innerHTML]="criterion.description"></div>
+    <i *ngIf="!criterion.isSatisfied"
+       class="fa fa-exclamation-triangle criterion-icon incomplete"></i>
+    <i *ngIf="criterion.isSatisfied === true"
+       class="fa fa-check-circle criterion-icon complete"></i>
+    <span class="pl-1" [innerHTML]="criterion.description"></span>
   </div>
 </div>
 <div class="period-criteria text-center alert alert-info"
