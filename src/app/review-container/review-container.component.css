@@ -77,8 +77,14 @@
 .checkbox label.disabled {
   cursor: not-allowed;
 }
-.alert.alert-warning .fa-exclamation-triangle {
-  color: #d86018;
+.warning .fa-exclamation-triangle {
+  color: #eed484;
+}
+.danger {
+  color: #be3a34;
+}
+.danger .fa-exclamation-triangle {
+  color: #be3a34;
 }
 .firstMajor {
   border-bottom: 2rem solid #fbf6ec;

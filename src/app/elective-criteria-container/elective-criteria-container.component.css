@@ -1,10 +1,10 @@
 .criterion-icon {
   font-size: 1.3em;
 }
-.criterion-icon.complete {
+.complete {
   color: #218274;
 }
-.criterion-icon.incomplete {
+.incomplete {
   color: #be3a34;
 }
 .stricken {

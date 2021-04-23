@@ -5,7 +5,9 @@
        class="fa fa-exclamation-triangle criterion-icon incomplete"></i>
     <i *ngIf="criterion.isSatisfied === true"
        class="fa fa-check-circle criterion-icon complete"></i>
-    <span class="pl-1" [innerHTML]="criterion.description"></span>
+    <span class="pl-1"
+          [ngClass]="{complete: criterion.isSatisfied, incomplete: !criterion.isSatisfied}"
+          [innerHTML]="criterion.description"></span>
   </div>
 </div>
 <div class="period-criteria text-center alert alert-info"
@@ -17,11 +19,11 @@
     <div class="col-offset-3 col-6 margin-bottom-sm">
       <span [ngClass]="{stricken: criterion.pg2Satisfied}">
       <i *ngIf="criterion.pg1Satisfied" class="fa fa-check-circle criterion-icon complete"></i>
-      {{criterion.group1description}}</span><br/>
+        {{criterion.group1description}}</span><br/>
       <span>&mdash; or &mdash;</span><br/>
       <span [ngClass]="{stricken: criterion.pg1Satisfied}">
       <i *ngIf="criterion.pg2Satisfied" class="fa fa-check-circle criterion-icon complete"></i>
-      {{criterion.group2description}}</span>
+        {{criterion.group2description}}</span>
     </div>
   </div>
 </div>
