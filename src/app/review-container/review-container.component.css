@@ -1,5 +1,4 @@
 .session {
-  border: 1px solid #ccc;
   margin: 0.75em;
   padding: 1em;
 }
@@ -13,6 +12,10 @@
 .session ul li {
   margin: 0;
   padding: 0;
+}
+.session-aligned {
+  margin: 0.75rem;
+  padding: 0 1rem;
 }
 .check-container {
   position: relative;
@@ -39,8 +42,6 @@
   font-size: 0.85em;
 }
 .elective-choice {
-  border-top: 1px solid #cccccc;
-  padding: 1em;
   margin: auto 0.5em;
 }
 .elective-choice.first {
@@ -66,6 +67,9 @@
 .pri-header {
   margin-top: 1em;
 }
+.alt-header {
+  border-top: 1px solid #003057;
+}
 .disabled {
   cursor: not-allowed;
   color: #aaa;
@@ -73,3 +77,10 @@
 .checkbox label.disabled {
   cursor: not-allowed;
 }
+.alert.alert-warning .fa-exclamation-triangle {
+  color: #d86018;
+}
+.firstMajor {
+  border-bottom: 2rem solid #fbf6ec;
+}
+/*# sourceMappingURL=review-container.component.css.map */

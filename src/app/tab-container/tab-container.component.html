@@ -26,11 +26,11 @@
           [electives]="electives"
           [tabIndex]="tabIndex"></iee-elective-picker-container>
       </div>
-      <div *ngIf="electivesUnavailable" class="alert alert-info">
+      <div *ngIf="electivesUnavailable">
         <i class="fa fa-info-circle"></i> There are no electives available for this session. Please continue to the next
         tab.
       </div>
-      <div *ngIf="electiveSlotsAvailable === false" class="alert alert-info">
+      <div *ngIf="electiveSlotsAvailable === false">
         <i class="fa fa-info-circle"></i> All electives are full for this session. Please continue to the next tab.
       </div>
     </div>

@@ -1,5 +1,5 @@
 .session {
-  border: 1px solid #ccc;
+  //border: 1px solid #ccc;
   margin: 0.75em;
   padding: 1em;
 
@@ -16,6 +16,11 @@
       padding: 0;
     }
   }
+}
+
+.session-aligned {
+  margin: 0.75rem;
+  padding: 0 1rem;
 }
 
 .check-container {
@@ -37,7 +42,7 @@
 
 .nudge-down {
   position: relative;
-  top:15px;
+  top: 15px;
 }
 
 .clickable {
@@ -49,8 +54,6 @@
 }
 
 .elective-choice {
-  border-top: 1px solid rgb(204, 204, 204);
-  padding: 1em;
   margin: auto 0.5em;
 
   &.first {
@@ -79,6 +82,10 @@
   margin-top: 1em;
 }
 
+.alt-header {
+  border-top: 1px solid #003057;
+}
+
 .disabled {
   cursor: not-allowed;
   color: #aaa;
@@ -90,4 +97,16 @@
       cursor: not-allowed;
     }
   }
+}
+
+.alert {
+  &.alert-warning {
+    .fa-exclamation-triangle {
+      color: #d86018;
+    }
+  }
+}
+
+.firstMajor {
+  border-bottom: 2rem solid #fbf6ec;
 }
