@@ -1,1 +1,1 @@
-{"version":3,"sources":["electives-selected.component.less"],"names":[],"mappings":"AAAA;EACE,mBAAA;EACA,mBAAA;EACA,oBAAA;EACA,gCAAA;;AAEF;EACE,iBAAA","file":"electives-selected.component.css"}
+{"version":3,"sources":["electives-selected.component.less"],"names":[],"mappings":"AAAA;EACE,mBAAA;EACA,mBAAA;EACA,oBAAA;EACA,gCAAA;;AAEF;EACE,6BAAA;EACA,aAAA;;AAEF;EACE,iBAAA","file":"electives-selected.component.css"}

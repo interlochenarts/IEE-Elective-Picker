@@ -1,6 +1,6 @@
 <div class="modal-container" #modalContainer></div>
 <div class="row margin-top-sm">
-  <div class="col-12 col-md-4 order-md-last">
+  <div class="col-12 col-md-3 order-md-first mb-3">
     <div *ngIf="longDescription && longDescription.length > 0" class="well instructions">
       <div [innerHTML]="longDescription"></div>
     </div>
@@ -11,7 +11,7 @@
       <i class="fa fa-arrow-up"></i> Back to Top
     </a>
   </div>
-  <div class="col-12 col-md-8 order-md-first">
+  <div class="col-12 col-md-9 order-md-last">
     <iee-tab-container></iee-tab-container>
   </div>
   <div class="col-12 d-block d-md-none margin-bottom" *ngIf="showPrivateLessonInstructions">

@@ -1,4 +1,4 @@
-<div class="row mx-2">
+<div class="row m-0 mb-5 mt-4">
   <div class="col-12 elective-time my-3" *ngIf="displayTimeHeaders && isPreviousTimeDifferent()">
     <h3 @appearDelayed>{{elective.time}}</h3>
   </div>
@@ -19,21 +19,26 @@
           <i class="fa fa-spinner fa-fw fa-pulse fa-2x"></i>
         </div>
       </div>
-      <div class="col-10 col-sm-6">
-        <div class="course-name">{{elective.courseDescription}}</div>
-        <div class="elective-session">{{elective.session}}</div>
-        <div class="elective-type">{{elective.electiveType}}</div>
-      </div>
-      <div class="col-12 col-sm-4 text-right">
-        <div>{{elective.time}}</div>
-        <div *ngIf="isPrimary">Spaces available:
-          <i *ngIf="elective.isUpdating === true" class="fa fa-spinner fa-pulse fa-fw"></i>
-          <span #availableSlotsElement><span *ngIf="!elective.isUpdating">{{elective.availableSlots}}</span></span>
+      <div class="col-10">
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="course-name">{{elective.courseDescription}}</div>
+            <div class="elective-session">{{elective.session}}</div>
+            <div class="elective-type">{{elective.electiveType}}</div>
+          </div>
+          <div class="col-12 col-sm-6 text-right">
+            <div>{{elective.time}}</div>
+            <div *ngIf="isPrimary">Spaces available:
+              <i *ngIf="elective.isUpdating === true" class="fa fa-spinner fa-pulse fa-fw"></i>
+              <span #availableSlotsElement><span *ngIf="!elective.isUpdating">{{elective.availableSlots}}</span></span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-offset-2 col-10 margin-top-sm co-req"
-           *ngIf="coRequisite && coRequisite.courseDescription !== ''">
-        Upon selection you will also be placed in {{coRequisite.courseDescription}} - {{coRequisite.session}}.
+        <div class="row" *ngIf="coRequisite && coRequisite.courseDescription !== ''">
+          <div class="col-12 margin-top-sm co-req">
+            Upon selection you will also be placed in {{coRequisite.courseDescription}} - {{coRequisite.session}}.
+          </div>
+        </div>
       </div>
     </div>
   </div>
