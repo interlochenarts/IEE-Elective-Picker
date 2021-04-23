@@ -18,11 +18,11 @@
     </div>
     <div class="col-offset-3 col-6 margin-bottom-sm">
       <span [ngClass]="{stricken: criterion.pg2Satisfied}">
-      <i *ngIf="criterion.pg1Satisfied" class="fa fa-check-circle" style="color:green;"></i>
+      <i *ngIf="criterion.pg1Satisfied" class="fa fa-check-circle criterion-icon complete"></i>
       {{criterion.group1description}}</span><br/>
       <span>&mdash; or &mdash;</span><br/>
       <span [ngClass]="{stricken: criterion.pg1Satisfied}">
-      <i *ngIf="criterion.pg2Satisfied" class="fa fa-check-circle" style="color:green;"></i>
+      <i *ngIf="criterion.pg2Satisfied" class="fa fa-check-circle criterion-icon complete"></i>
       {{criterion.group2description}}</span>
     </div>
   </div>

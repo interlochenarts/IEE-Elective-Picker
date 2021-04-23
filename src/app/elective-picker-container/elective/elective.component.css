@@ -1,21 +1,17 @@
 .elective-choice {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  background: #fff;
+  background: #218274;
+  color: white;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  border: 2px solid #a7e6fb;
-  margin-bottom: 0.5em;
+  margin-bottom: 1rem;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.7, 1);
   cursor: pointer;
 }
 .elective-choice:hover {
-  background-color: #a7e6fb;
-  border-color: #3cc7f6;
+  background-color: #173f35;
 }
 .elective-choice.disabled,
 .elective-choice.disabled:hover {
@@ -24,10 +20,25 @@
   border-color: #bbb;
   cursor: not-allowed;
 }
+.elective-choice.disabled .checkbox input[type=checkbox] + label,
+.elective-choice.disabled:hover .checkbox input[type=checkbox] + label {
+  border: 1px solid #bbb;
+}
+.elective-choice.disabled .checkbox label i,
+.elective-choice.disabled:hover .checkbox label i {
+  color: #bbb;
+}
+.elective-choice .checkbox input[type=checkbox] + label {
+  border: 1px solid white;
+}
+.elective-choice .checkbox label i {
+  color: white;
+}
 .elective-time {
   margin-bottom: 0.5em;
 }
 .course-name {
+  font-family: "brandon-grotesque", sans-serif;
   font-size: 1.25em;
 }
 .course-number {
@@ -48,14 +59,14 @@
     opacity: 0;
   }
   30% {
-    font-size: 1.0em;
+    font-size: 1em;
     opacity: 1;
   }
   70% {
     font-size: 0.9em;
   }
   100% {
-    font-size: 1.0em;
+    font-size: 1em;
   }
 }
 @keyframes slideIn {
@@ -93,6 +104,6 @@
 #detail-link {
   position: relative;
   top: 10px;
-  color: darkgray;
   font-size: 1.3em;
 }
+/*# sourceMappingURL=elective.component.css.map */
