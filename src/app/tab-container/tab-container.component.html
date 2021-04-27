@@ -13,7 +13,7 @@
 </ul>
 <div class="well" *ngIf="activeProgramMajorId">
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 mx-2">
       <h3>{{education.programNamesByProgramMajorIds[activeProgramMajorId]}}</h3>
     </div>
   </div>
@@ -26,12 +26,12 @@
           [electives]="electives"
           [tabIndex]="tabIndex"></iee-elective-picker-container>
       </div>
-      <div *ngIf="electivesUnavailable" class="alert alert-info">
+      <div *ngIf="electivesUnavailable">
         <i class="fa fa-info-circle"></i> There are no electives available for this session. Please continue to the next
         tab.
       </div>
-      <div *ngIf="electiveSlotsAvailable === false" class="alert alert-info">
-        <i class="fa fa-info-circle"></i> All electives are full for this session. Please continue to the next tab.
+      <div *ngIf="electiveSlotsAvailable === false">
+        <i class="fa fa-exclamation-triangle"></i> All electives are full for this session. Please continue to the next tab.
       </div>
     </div>
   </div>

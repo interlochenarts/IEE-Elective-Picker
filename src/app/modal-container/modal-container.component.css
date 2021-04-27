@@ -9,6 +9,7 @@
   background: white;
   position: fixed;
   left: 0;
+  top: 125px;
   z-index: 10001;
   padding: 1em;
 }
@@ -18,3 +19,4 @@ a#modal-close:hover,
 a#modal-close:active {
   color: darkgray;
 }
+/*# sourceMappingURL=modal-container.component.css.map */

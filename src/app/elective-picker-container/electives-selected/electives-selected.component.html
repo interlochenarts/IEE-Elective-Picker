@@ -1,32 +1,28 @@
-<div class="selectedList" id="primarySelections">
-  <div class="col-12">
-    <h4 class="text-center heading">Primary Selections</h4>
-    <!-- disabled below is counter intuitive and a hack. If the checkbox is showing, the row won't be disabled -->
-    <iee-elective *ngFor="let elective of primaries"
-                  [elective]="elective"
-                  [isPrimary]="true"
-                  [electives]="electives"
-                  [coRequisite]="getCoRequisite(elective)"
-                  [isDisabled]="true"
-                  @shrink></iee-elective>
-  </div>
-  <div class="col-12 alert alert-info" *ngIf="primaries.length === 0">
-    <i class="fa fa-info-circle" aria-hidden="true"></i> No primary electives selected
+<div class="selectedList pt-4" id="primarySelections">
+  <h4 class="text-center heading">Primary Selections</h4>
+  <!-- disabled below is counter intuitive and a hack. If the checkbox is showing, the row won't be disabled -->
+  <iee-elective *ngFor="let elective of primaries"
+                [elective]="elective"
+                [isPrimary]="true"
+                [electives]="electives"
+                [coRequisite]="getCoRequisite(elective)"
+                [isDisabled]="true"
+                @shrink></iee-elective>
+  <div class="col-12 mb-4" *ngIf="primaries.length === 0">
+    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> No primary electives selected
   </div>
 </div>
-<div class="selectedList" id="alternateSelections">
-  <div class="col-12">
-    <h4 class="text-center heading">Alternate Selections</h4>
-    <!-- disabled below is counter intuitive and a hack. If the checkbox is showing, the row won't be disabled -->
-    <iee-elective *ngFor="let elective of alternates"
-                  [elective]="elective"
-                  [isPrimary]="false"
-                  [electives]="electives"
-                  [coRequisite]="getCoRequisite(elective)"
-                  [isDisabled]="true"
-                  @shrink></iee-elective>
-  </div>
-  <div class="col-12 alert alert-info" *ngIf="alternates.length === 0">
-    <i class="fa fa-info-circle"></i> No alternate electives selected
+<div class="selectedList mt-4" id="alternateSelections">
+  <h4 class="text-center heading">Alternate Selections</h4>
+  <!-- disabled below is counter intuitive and a hack. If the checkbox is showing, the row won't be disabled -->
+  <iee-elective *ngFor="let elective of alternates"
+                [elective]="elective"
+                [isPrimary]="false"
+                [electives]="electives"
+                [coRequisite]="getCoRequisite(elective)"
+                [isDisabled]="true"
+                @shrink></iee-elective>
+  <div class="col-12 mb-4" *ngIf="alternates.length === 0">
+    <i class="fa fa-exclamation-triangle"></i> No alternate electives selected
   </div>
 </div>

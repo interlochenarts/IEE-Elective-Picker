@@ -1,19 +1,11 @@
-.instructions {
-  border: 2px solid #b01e33;
-}
 @media only screen and (min-width: 992px) {
   .instructions {
     position: relative;
-    top: 3em;
   }
-}
-.lesson-instructions {
-  border: 2px solid darkgray;
 }
 @media only screen and (min-width: 992px) {
   .lesson-instructions {
     position: relative;
-    top: 3em;
     margin-bottom: 5em;
   }
 }
@@ -27,3 +19,4 @@
   bottom: 10px;
   right: 10px;
 }
+/*# sourceMappingURL=app.component.css.map */
