@@ -1,11 +1,11 @@
 .criterion-icon {
   font-size: 1.3em;
 }
-.criterion-icon.complete {
-  color: green;
+.complete {
+  color: #218274;
 }
-.criterion-icon.incomplete {
-  color: red;
+.incomplete {
+  color: #be3a34;
 }
 .stricken {
   text-decoration: line-through;
@@ -19,3 +19,4 @@
   padding-left: 0;
   margin-left: 0;
 }
+/*# sourceMappingURL=elective-criteria-container.component.css.map */
