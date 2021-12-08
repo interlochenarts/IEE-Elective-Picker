@@ -21,14 +21,15 @@
 }
 .elective-choice.disabled .checkbox input[type=checkbox] + label,
 .elective-choice.disabled:hover .checkbox input[type=checkbox] + label {
-  border: 1px solid #bbb;
+  border: 1px solid white !important;
 }
 .elective-choice.disabled .checkbox label i,
 .elective-choice.disabled:hover .checkbox label i {
   color: #bbb;
 }
 .elective-choice .checkbox input[type=checkbox] + label {
-  border: 1px solid white;
+  border: 1px solid white !important;
+  background-color: transparent;
 }
 .elective-choice .checkbox label i {
   color: white;
