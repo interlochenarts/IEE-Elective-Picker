@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NODE_VERSION=14
-NG_CLI_VERSION=10.2.3
+NODE_VERSION=16
+NG_CLI_VERSION=13
 
 cd ..;
 
@@ -26,4 +26,4 @@ if ! command -v ng &>/dev/null; then
 fi
 
 echo -e "\n===> Compiling... <===\n"
-ng build --prod --aot --output-hashing=none
+ng build --configuration production --aot --output-hashing=none
