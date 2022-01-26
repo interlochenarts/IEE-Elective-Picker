@@ -14,7 +14,7 @@
      *ngIf="(periodCriteria.length > 0) && (electives.length > 0)">
   <div *ngFor="let criterion of periodCriteria" class="row">
     <div class="col-12 margin-bottom-sm">
-      <strong>Choose your elective(s) from one of the following:</strong>
+      <strong>Choose your class(es) from one of the following:</strong>
     </div>
     <div class="col-offset-3 col-6 margin-bottom-sm">
       <span [ngClass]="{stricken: criterion.pg2Satisfied}">

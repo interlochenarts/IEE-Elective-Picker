@@ -11,7 +11,7 @@
           <h4 class="text-center pri-header">Primary Selections</h4>
           <div class="danger"
                *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length === 0">
-            <i class="fa fa-exclamation-triangle"></i> You have not selected any primary electives for
+            <i class="fa fa-exclamation-triangle"></i> You have not selected any primary classes for
             this session.
           </div>
           <div class="warning"
@@ -19,20 +19,20 @@
                     && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
                     && primaryElectivesByProgramMajorIds.get(pmId).length === 0
                     && hasAlternatesButNoPrimariesForProgram(pmId) === false">
-            <i class="fa fa-exclamation-triangle"></i> You may select an optional elective to enhance
+            <i class="fa fa-exclamation-triangle"></i> You may select an optional class to enhance
             your daily schedule.
           </div>
           <div class="danger"
                *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
             <i class="fa fa-exclamation-triangle"></i>
-            You have not chosen all of your electives for this session. Please complete your selections.
+            You have not chosen all of your classes for this session. Please complete your selections.
           </div>
           <div class="danger"
                *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) === 0
                     && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
                     && hasAlternatesButNoPrimariesForProgram(pmId)">
             <i class="fa fa-exclamation-triangle"></i>
-            You have selected alternate electives but not primary electives. Please go back and select primary electives
+            You have selected alternate classes but not primary electives. Please go back and select primary classes
             for this session.
           </div>
           <div *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
@@ -59,7 +59,7 @@
           </div>
           <div class="warning"
             *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0 && electiveSlotsAvailable(pmId) === false">
-            <i class="fa fa-exclamation-triangle"></i> All electives for this session are full.
+            <i class="fa fa-exclamation-triangle"></i> All classes for this session are full.
           </div>
           <div *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length > 0">
             <div class="row elective-choice"
@@ -79,10 +79,10 @@
         </div>
       </div>
       <div *ngIf="electiveSlotsAvailable(pmId) === false && electiveChoicesStarted(pmId) === false" class="warning">
-        <i class="fa fa-exclamation-triangle"></i> All electives for this session are full.
+        <i class="fa fa-exclamation-triangle"></i> All classes for this session are full.
       </div>
       <div *ngIf="electivesUnavailable(pmId)">
-        <i class="fa fa-info-circle"></i> There are no electives available for this session.
+        <i class="fa fa-info-circle"></i> There are no classes available for this session.
       </div>
     </div>
   </div>
@@ -92,7 +92,7 @@
     <div class="session">
       <div class="danger">
         <i class="fa fa-exclamation-triangle"></i>
-        You cannot submit your electives until you have satisfied all of the requirements for each session.
+        You cannot submit your classes until you have satisfied all of the requirements for each session.
       </div>
     </div>
   </div>
@@ -108,15 +108,15 @@
   </div>
   <div class="col-10 d-flex align-items-center">
     <div class="no-select">
-      I'm ready to submit my electives.
+      I'm ready to submit my classes.
     </div>
   </div>
 </div>
 <div class="row">
   <div class="session-aligned">
     <div class="col-12 info-text margin-top-sm">
-      Once you have submitted your elective selections you won't be able to change this information.
-      While we do our best to honor elective selections, we are not able to guarantee placement in any course.
+      Once you have submitted your class selections you won't be able to change this information.
+      While we do our best to honor class selections, we are not able to guarantee placement in any course.
     </div>
   </div>
 </div>
