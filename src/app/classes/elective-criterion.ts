@@ -61,7 +61,7 @@ export class ElectiveCriterion {
         + lastType + ' ';
       description = 'One '
         + (this.electiveTypes === 'Any Arts Area' ? '' : typeString)
-        + 'elective' +
+        + 'class' +
         (this.courseSession
           ? ' during the ' + this.courseSession
           : '');

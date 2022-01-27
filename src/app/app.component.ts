@@ -127,15 +127,15 @@ export class AppComponent implements OnInit {
 
   get privateLessonInstructions(): string {
     if (this.education.privateLessonFormSubmitted === false) {
-      return '<p>A Private Lesson elective may be requested in the place of one of the elective selections made on this page.</p>' +
+      return '<p>A Private Lesson class may be requested in the place of one of the class selections made on this page.</p>' +
         '<p>To be eligible, the student must have at least three years of experience on the instrument, and ' +
         'there is an additional fee of $115 per week.</p>' +
-        '<p>If you are interested in requesting a Private Lesson elective, ' +
+        '<p>If you are interested in requesting a Private Lesson class, ' +
         '<a class="privateLessonLink" href="' + this.privateLessonFormLink + '">please complete this form.</a></p>' +
-        '<p>Please submit elective requests in addition to completing this form. We are not able guarantee placement in private ' +
-        'lesson electives.</p>';
+        '<p>Please submit class requests in addition to completing this form. We are not able to guarantee placement in private ' +
+        'lesson classes.</p>';
     } else {
-      return 'You have submitted a private lesson elective request for this summer.';
+      return 'You have submitted a private lesson class request for this summer.';
     }
   }
 
