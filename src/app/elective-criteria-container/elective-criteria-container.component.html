@@ -5,7 +5,7 @@
        class="fa fa-exclamation-triangle criterion-icon incomplete"></i>
     <i *ngIf="criterion.isSatisfied === true"
        class="fa fa-check-circle criterion-icon complete"></i>
-    <span class="pl-1"
+    <span class="ps-1"
           [ngClass]="{complete: criterion.isSatisfied, incomplete: !criterion.isSatisfied}"
           [innerHTML]="criterion.description"></span>
   </div>
