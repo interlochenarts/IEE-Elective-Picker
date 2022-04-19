@@ -7,7 +7,7 @@ import {FilterListItem} from "../../classes/filter-list-item";
 @Component({
   selector: 'iee-electives',
   templateUrl: './electives.component.html',
-  styleUrls: ['./electives.component.css'],
+  styleUrls: ['./electives.component.less'],
   animations: [
     trigger('shrinkOut', [
       transition(':leave', [

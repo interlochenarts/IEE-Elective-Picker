@@ -12,7 +12,7 @@ declare const Visualforce: any;
 @Component({
   selector: 'iee-elective',
   templateUrl: './elective.component.html',
-  styleUrls: ['./elective.component.css'],
+  styleUrls: ['./elective.component.less'],
   animations: [
     trigger('shrinkGrow', [
       state('in', style({height: '*', padding: '0.75em'})),

@@ -7,7 +7,7 @@ declare const Visualforce: any;
 @Component({
   selector: 'iee-picklist-filter',
   templateUrl: './picklist-filter.component.html',
-  styleUrls: ['./picklist-filter.component.css']
+  styleUrls: ['./picklist-filter.component.less']
 })
 export class PicklistFilterComponent implements OnInit {
   @ViewChild('dropdownModal', { static: true }) dropdownModal: any;

@@ -13,7 +13,7 @@ import {ModalService} from './services/modal.service';
 @Component({
     selector: 'iee-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit {
   @ViewChild('floatLink', { static: true }) floatLink: any;

@@ -5,7 +5,7 @@ import {animate, animateChild, query, state, style, transition, trigger} from '@
 @Component({
   selector: 'iee-electives-selected',
   templateUrl: './electives-selected.component.html',
-  styleUrls: ['./electives-selected.component.css'],
+  styleUrls: ['./electives-selected.component.less'],
   animations: [
     trigger('shrink', [
       transition(':leave', [

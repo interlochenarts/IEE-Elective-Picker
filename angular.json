@@ -21,7 +21,7 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.less"
             ],
             "scripts": [],
             "vendorChunk": true,
@@ -81,7 +81,7 @@
             "polyfills": "src/polyfills.ts",
             "scripts": [],
             "styles": [
-              "src/styles.css"
+              "src/styles.less"
             ],
             "assets": [
               "src/assets",
@@ -110,7 +110,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "iee",
-      "style": "css"
+      "style": "less"
     },
     "@schematics/angular:directive": {
       "prefix": "iee"

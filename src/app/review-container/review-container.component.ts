@@ -13,7 +13,7 @@ declare const Visualforce: any;
 @Component({
   selector: 'iee-review-container',
   templateUrl: './review-container.component.html',
-  styleUrls: ['./review-container.component.css']
+  styleUrls: ['./review-container.component.less']
 })
 export class ReviewContainerComponent implements OnInit {
   education: Education;
