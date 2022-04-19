@@ -44,3 +44,7 @@ Thumbs.db
 /IEE_ElectivePickerAngular.zip
 /Salesforce/src/IEE_ElectivePickerAngular.resource
 /Salesforce/src/staticresources/IEE_ElectivePickerAngular.resource
+
+# Don't check in CSS or CSS map files - ng build will compile the *.less files
+*.css
+*.css.map

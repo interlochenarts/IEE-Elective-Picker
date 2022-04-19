@@ -10,7 +10,7 @@ import {ElectiveCriteriaGroup} from '../classes/elective-criteria-group';
 @Component({
   selector: 'iee-elective-criteria-container',
   templateUrl: './elective-criteria-container.component.html',
-  styleUrls: ['./elective-criteria-container.component.css']
+  styleUrls: ['./elective-criteria-container.component.less']
 })
 export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnChanges {
   @Input() activeProgramMajorId: string;
