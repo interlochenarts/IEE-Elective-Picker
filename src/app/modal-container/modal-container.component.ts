@@ -4,7 +4,7 @@ import {ModalService} from '../services/modal.service';
 @Component({
   selector: 'iee-modal-container',
   templateUrl: './modal-container.component.html',
-  styleUrls: ['./modal-container.component.css']
+  styleUrls: ['./modal-container.component.less']
 })
 export class ModalContainerComponent implements OnInit, OnDestroy {
   detailText: string;

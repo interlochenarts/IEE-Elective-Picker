@@ -6,7 +6,7 @@ import {Education} from '../classes/education';
 @Component({
   selector: 'iee-tab-container',
   templateUrl: './tab-container.component.html',
-  styleUrls: ['./tab-container.component.css']
+  styleUrls: ['./tab-container.component.less']
 })
 export class TabContainerComponent implements OnInit {
   education: Education;

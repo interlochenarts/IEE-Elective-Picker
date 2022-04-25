@@ -4,7 +4,7 @@ import {FilterListItem} from '../../../classes/filter-list-item';
 @Component({
   selector: 'iee-list-item',
   templateUrl: './list-item.component.html',
-  styleUrls: ['./list-item.component.css']
+  styleUrls: ['./list-item.component.less']
 })
 export class ListItemComponent implements OnInit {
   @Input() listItem: FilterListItem;

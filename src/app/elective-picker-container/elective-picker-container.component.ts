@@ -6,7 +6,7 @@ import {FilterListItem} from '../classes/filter-list-item';
 @Component({
   selector: 'iee-elective-picker-container',
   templateUrl: './elective-picker-container.component.html',
-  styleUrls: ['./elective-picker-container.component.css']
+  styleUrls: ['./elective-picker-container.component.less']
 })
 export class ElectivePickerContainerComponent implements OnInit, DoCheck {
   electiveOptionsType = 'primary';
