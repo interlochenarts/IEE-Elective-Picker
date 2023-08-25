@@ -13,7 +13,7 @@ if [[ -z ${DX_ENV} ]]; then
 fi
 
 if [[ -z ${LOGIN_SERVER} ]]; then
-  echo -e "Missing DX_ENV environment variable"
+  echo -e "Missing LOGIN_SERVER environment variable"
 fi
 
 if [[ -z ${KEY_FILE} ]]; then
@@ -25,14 +25,14 @@ if [[ -z ${SFDX_CLI_VERSION} ]]; then
 fi
 
 source "$HOME/.nvm/nvm.sh"
-nvm install --lts
+nvm install
 
 echo -e "\n===> SFDX Update <===\n"
-npm install -g sfdx-cli@${SFDX_CLI_VERSION}
+npm install -g @salesforce/cli@${SFDX_CLI_VERSION}
 sfdx --version
 
-echo -e "sfdx force:auth:jwt:grant -i${SFDC_CONSUMER_KEY} -f/home/wwadmin/certificates/${KEY_FILE} -u${sfdcUser} -a${DX_ENV} -r${LOGIN_SERVER}"
-sfdx force:auth:jwt:grant -i${SFDC_CONSUMER_KEY} -f/home/wwadmin/certificates/${KEY_FILE} -u${sfdcUser} -a${DX_ENV} -r${LOGIN_SERVER}
+echo -e "sfdx auth jwt grant --client-id=${SFDC_CONSUMER_KEY} --jwt-key-file=/home/wwadmin/certificates/${KEY_FILE} --username=${sfdcUser} --alias=${DX_ENV} --instance-url=${LOGIN_SERVER}"
+sfdx auth jwt grant --client-id=${SFDC_CONSUMER_KEY} --jwt-key-file=/home/wwadmin/certificates/${KEY_FILE} --username=${sfdcUser} --alias=${DX_ENV} --instance-url=${LOGIN_SERVER}
 
-echo -e "sfdx force:mdapi:deploy -dSalesforce/src -u${DX_ENV} -w60"
-sfdx force:mdapi:deploy -dSalesforce/src -u${DX_ENV} -w60
+echo -e "sfdx project deploy start --metadata-dir=Salesforce/src -alias=${DX_ENV} --wait=60"
+sfdx project deploy start --metadata-dir=Salesforce/src -alias=${DX_ENV} --wait=60

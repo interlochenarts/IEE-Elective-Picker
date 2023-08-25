@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NG_CLI_VERSION=13
+NG_CLI_VERSION=v13-lts
 
 cd ..;
 
