@@ -35,12 +35,12 @@
     "zone.js": "^0.11.5"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~v13-lts",
-    "@angular-eslint/builder": "13.2.1",
-    "@angular-eslint/eslint-plugin": "13.2.1",
-    "@angular-eslint/eslint-plugin-template": "13.2.1",
-    "@angular-eslint/schematics": "13.2.1",
-    "@angular-eslint/template-parser": "13.2.1",
+    "@angular-devkit/build-angular": "v13-lts",
+    "@angular-eslint/builder": "v13-lts",
+    "@angular-eslint/eslint-plugin": "v13-lts",
+    "@angular-eslint/eslint-plugin-template": "v13-lts",
+    "@angular-eslint/schematics": "v13-lts",
+    "@angular-eslint/template-parser": "v13-lts",
     "@angular/cli": "v13-lts",
     "@angular/compiler-cli": "v13-lts",
     "@types/node": "^12.11.1",

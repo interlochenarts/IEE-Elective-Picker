@@ -12,11 +12,11 @@ fi
 
 # lets us use the nvm commands
 source "$HOME/.nvm/nvm.sh"
-nvm install --lts
+nvm install # use .nvmrc version
 
 # get our dependencies
 echo -e "===> npm install <===\n"
-npm install;
+npm clean-install;
 
 # check for angular-cli and install if not found
 if ! command -v ng &>/dev/null; then
