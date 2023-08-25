@@ -1,14 +1,14 @@
 #!/bin/bash
 
-if [[ -z ${SFDC_CONSUMER_KEY} ]]; then
+if [[ -z "${SFDC_CONSUMER_KEY}" ]]; then
   echo -e "Missing SFDC_CONSUMER_KEY environment variable"
 fi
 
-if [[ -z ${sfdcUser} ]]; then
+if [[ -z "${sfdcUser}" ]]; then
   echo -e "Missing sfdcUser environment variable"
 fi
 
-if [[ -z ${DX_ENV} ]]; then
+if [[ -z "${DX_ENV}" ]]; then
   echo -e "Missing DX_ENV environment variable"
 fi
 
@@ -16,7 +16,7 @@ if [[ -z ${LOGIN_SERVER} ]]; then
   echo -e "Missing LOGIN_SERVER environment variable"
 fi
 
-if [[ -z ${KEY_FILE} ]]; then
+if [[ -z "${KEY_FILE}" ]]; then
   echo -e "Missing KEY_FILE environment variable"
 fi
 
