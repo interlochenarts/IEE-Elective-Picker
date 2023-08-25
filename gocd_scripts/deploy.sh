@@ -34,5 +34,5 @@ sfdx --version
 echo -e "sfdx auth jwt grant --client-id=${SFDC_CONSUMER_KEY} --jwt-key-file=/home/wwadmin/certificates/${KEY_FILE} --username=${sfdcUser} --alias=${DX_ENV} --instance-url=${LOGIN_SERVER}"
 sfdx auth jwt grant --client-id=${SFDC_CONSUMER_KEY} --jwt-key-file=/home/wwadmin/certificates/${KEY_FILE} --username=${sfdcUser} --alias=${DX_ENV} --instance-url=${LOGIN_SERVER}
 
-echo -e "sfdx project deploy start --metadata-dir=Salesforce/src -alias=${DX_ENV} --wait=60"
-sfdx project deploy start --metadata-dir=Salesforce/src -alias=${DX_ENV} --wait=60
+echo -e "sfdx project deploy start --metadata-dir=Salesforce/src --alias=${DX_ENV} --wait=60"
+sfdx project deploy start --metadata-dir=Salesforce/src --alias=${DX_ENV} --wait=60
