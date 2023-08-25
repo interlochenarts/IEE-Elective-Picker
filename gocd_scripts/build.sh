@@ -1,7 +1,6 @@
 #!/bin/bash
 
-NODE_VERSION=16
-NG_CLI_VERSION=13
+NG_CLI_VERSION=v13-lts
 
 cd ..;
 
@@ -13,11 +12,11 @@ fi
 
 # lets us use the nvm commands
 source "$HOME/.nvm/nvm.sh"
-nvm install $NODE_VERSION
+nvm install # use .nvmrc version
 
 # get our dependencies
 echo -e "===> npm install <===\n"
-npm install;
+npm clean-install;
 
 # check for angular-cli and install if not found
 if ! command -v ng &>/dev/null; then
