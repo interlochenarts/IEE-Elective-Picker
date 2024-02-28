@@ -113,19 +113,23 @@ export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChan
       }
 
       if (this.checking) {
-        this.elective.insertIntoSalesforce(this.educationId).then(result => {});
-
-        // if co-req exists, insert it also
-        if (this.coRequisite) {
-          this.coRequisite.insertIntoSalesforce(this.educationId).then(coReqResult => {});
-        }
+        this.elective.insertIntoSalesforce(this.educationId).then(result => {
+          // if co-req exists, insert it also
+          if (this.coRequisite) {
+            setTimeout(() => {
+              this.coRequisite.insertIntoSalesforce(this.educationId).then(coReqResult => {});
+            }, 1000);
+          }
+        });
       } else {
-        this.elective.deleteFromSalesforce().then(result => {});
-
-        // if co-req exists, delete it also
-        if (this.coRequisite) {
-          this.coRequisite.deleteFromSalesforce().then(coReqResult => {});
-        }
+        this.elective.deleteFromSalesforce().then(result => {
+          // if co-req exists, delete it also
+          if (this.coRequisite) {
+            setTimeout(() => {
+              this.coRequisite.deleteFromSalesforce().then(coReqResult => {});
+            }, 1000);
+          }
+        });
       }
     }
   }
