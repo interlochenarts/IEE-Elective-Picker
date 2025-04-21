@@ -43,6 +43,7 @@
     "@angular-eslint/template-parser": "v13-lts",
     "@angular/cli": "v13-lts",
     "@angular/compiler-cli": "v13-lts",
+    "@salesforce/cli": "^2.64.8",
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "5.17.0",
     "@typescript-eslint/parser": "5.17.0",
